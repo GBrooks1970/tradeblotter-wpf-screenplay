@@ -8,8 +8,8 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 1 — Initial backlog derived from Candidate 1 specification and Phase 0 feasibility probe  
-**Last Updated:** 2026-09-18  
+**Version:** 2 — TB-01 driver abstraction delivered
+**Last Updated:** 2026-09-19
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
 This backlog tracks the architecture, test automation harness, Screenplay pattern implementation, multi-driver abstraction, and CI delivery for the TradeBlotter.WPF desktop automation project.
@@ -29,35 +29,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 **Status vocabulary:** `READY TO START`, `IN PROGRESS` and `BLOCKED` are stages of open work; `COMPLETE` is a delivery; `RECORDED` is the accepted-risk terminal state.
 
 ### HIGH Priority (Score: 20–30)
-
-#### Risk #1: Driver Abstraction Layer & Core Driver Interfaces — Score: 26
-
-**Priority Score:** Security Impact (7) + Breakage Probability (10) + Maintenance Burden (9) = **26 points**  
-**Impact:** Essential architectural interface decoupling test logic from specific automation vendor libraries.  
-**Effort:** 6–8 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** Core Automation Framework (`TradeBlotter.Framework`)  
-
-**Problem:**
-Without a robust driver abstraction layer, test step definitions directly couple to FlaUI, Ranorex, or WinAppDriver API calls. This creates tight vendor lock-in, prevents interchangeable CI execution, and invalidates the core portfolio goal of empirical multi-driver benchmarking.
-
-**Impact Analysis:**
-- **Security (7/10):** Uncontrolled binary execution and process handling without centralized driver lifecycle management.
-- **Breakage (10/10):** Direct framework coupling makes replacing or substituting automation drivers require rewriting entire step definitions.
-- **Maintenance (9/10):** Triplication of test code across multiple frameworks if driver abstraction is omitted.
-
-**Refactor Strategy:**
-1. Define `IWindowsAutomationDriver` in `TradeBlotter.Framework.Abstractions`.
-2. Define element abstractions `IAutomationElement` and locator strategies `By.AutomationId`, `By.Name`, `By.XPath`.
-3. Implement `FlaUiDriverAdapter` wrapping `FlaUI.Core.Application` and `UIA3Automation`.
-4. Implement driver lifecycle manager handling cold boot, timeout configurations, and clean teardown.
-
-**Success Criteria:**
-- [ ] `IWindowsAutomationDriver` interface authored with element finding, clicking, typing, and window switching.
-- [ ] `FlaUiDriverAdapter` implements `IWindowsAutomationDriver` cleanly with zero FlaUI leak in interface signatures.
-- [ ] Unit tests verify adapter methods against mock/in-memory elements.
-
----
 
 #### Risk #2: Screenplay Pattern Architecture Core & Trading Actors — Score: 24
 
@@ -257,6 +228,38 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 
 ### Resolved Risks
 
+#### Risk #1: Driver Abstraction Layer & Core Driver Interfaces — Score: 26
+
+**Priority Score:** Security Impact (7) + Breakage Probability (10) + Maintenance Burden (9) = **26 points**
+**Impact:** Essential architectural interface decoupling test logic from specific automation vendor libraries.
+**Effort:** 6–8 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Core Automation Framework (`TradeBlotter.Framework`)
+
+**Problem:**
+Without a robust driver abstraction layer, test step definitions directly couple to FlaUI, Ranorex, or WinAppDriver API calls. This creates tight vendor lock-in, prevents interchangeable CI execution, and invalidates the core portfolio goal of empirical multi-driver benchmarking.
+
+**Impact Analysis:**
+- **Security (7/10):** Uncontrolled binary execution and process handling without centralized driver lifecycle management.
+- **Breakage (10/10):** Direct framework coupling makes replacing or substituting automation drivers require rewriting entire step definitions.
+- **Maintenance (9/10):** Triplication of test code across multiple frameworks if driver abstraction is omitted.
+
+**Refactor Strategy:**
+1. Define `IWindowsAutomationDriver` in `TradeBlotter.Framework.Abstractions`.
+2. Define element abstractions `IAutomationElement` and locator strategies `By.AutomationId`, `By.Name`, `By.XPath`.
+3. Implement `FlaUiDriverAdapter` wrapping `FlaUI.Core.Application` and `UIA3Automation`.
+4. Implement driver lifecycle manager handling cold boot, timeout configurations, and clean teardown.
+
+**Success Criteria:**
+- [x] `IWindowsAutomationDriver` interface authored with element finding, clicking, typing, and window switching.
+- [x] `FlaUiDriverAdapter` implements `IWindowsAutomationDriver` cleanly with zero FlaUI leak in interface signatures.
+- [x] Unit tests verify adapter methods against mock/in-memory elements.
+
+**Resolution (TB-01):** `TradeBlotter.Framework` supplies vendor-neutral contracts, locators, configurable waits and a managed FlaUI.UIA3 adapter. NUnit in-memory tests cover routing and lifecycle; the explicit desktop smoke test verifies native lookup, typing, modal switching and process exit. See [driver documentation](driver-abstraction.md).
+
+---
+
+
 #### Phase 0 SUT Scaffolding & Feasibility Probe Validation ✅ Resolved 2026-09-18
 
 **Resolution:** Scaffolded dark-mode WPF trading blotter (`TradeBlotter.Sut`) and executed 7-step feasibility probe (`TradeBlotter.Probe`) using FlaUI.UIA3 on .NET 9. Validated cold boot latency (2,576 ms), UIA3 tree discovery (5/5 controls), DataGrid row access (4/4 seed rows), modal dialog order submission (`ORD-2026-0905`), memory telemetry (162.97 MB), and clean process teardown (2,118 ms, 0 orphans). Formal verdict: **FEASIBLE — GO**.  
@@ -268,8 +271,8 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
-| HIGH (20–30) | 4 | 24–32 hrs | 4 READY TO START |
+| HIGH (20–30) | 3 | 18–24 hrs | 3 READY TO START |
 | MEDIUM (10–19) | 4 | 20–27 hrs | 4 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **8** | **44–59 hrs** | 8 READY TO START |
-| Resolved | 1 | ~8 hrs completed | 1 COMPLETE |
+| **Total Outstanding** | **7** | **38–51 hrs** | 7 READY TO START |
+| Resolved | 2 | Actual TB-01 effort not measured | 2 COMPLETE |

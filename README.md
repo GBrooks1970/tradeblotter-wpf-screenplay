@@ -1,9 +1,9 @@
 # TradeBlotter WPF
 
 A C#/.NET 9 Windows desktop automation project built around a WPF trading blotter.
-The repository currently contains the subject under test (SUT) and a FlaUI.UIA3
-feasibility probe. The reusable driver abstraction, Screenplay actors, Reqnroll
-scenarios and CI pipeline are planned work, not delivered capabilities.
+The repository contains the subject under test (SUT), a FlaUI.UIA3 feasibility
+probe, and a vendor-neutral driver contract with a tested FlaUI adapter. Screenplay
+actors, Reqnroll scenarios and CI remain planned work.
 
 ## Prerequisites and build
 
@@ -15,7 +15,8 @@ dotnet build probes/TradeBlotter.Probe/TradeBlotter.Probe.csproj --configuration
 ```
 
 Builds restore NuGet dependencies as required. The probe pins FlaUI.UIA3 5.0.0.
-These are the initial mechanical gates; they do not execute UI automation.
+These compile the SUT and historical probe. The [project contract](docs/project-contract.md)
+also requires the framework build and in-memory unit tests.
 
 To inspect the trading blotter interactively:
 
@@ -36,11 +37,11 @@ establish unattended or cloud CI support.
 - [Implementation-log template](docs/templates/implementation-log.template.md): reusable record for completed work.
 - [Changelog](CHANGELOG.md): notable changes.
 
-The backlog begins with driver abstraction (TB-01), followed by Screenplay core,
+TB-01 delivers the driver abstraction. The remaining backlog begins with Screenplay core,
 order-placement BDD scenarios, Windows CI, cancellation and ticker verification,
-then WinAppDriver and Ranorex adapters with comparative benchmarking. The eight
+then WinAppDriver and Ranorex adapters with comparative benchmarking. The seven
 open items remain governed by the backlog. Some historical records link to sibling
 portfolio documents; those links require the full portfolio workspace.
 
-Portfolio onboarding is staged: this scaffold must merge before the canonical
-registry row is added, followed by the public landing entry.
+The project is registered in the portfolio and has a public landing entry.
+See [driver usage and lifecycle](docs/driver-abstraction.md) for the TB-01 API.
