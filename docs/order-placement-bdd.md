@@ -15,7 +15,8 @@ beside the test output in `sut/`. No environment variable or working-directory
 assumption is required. The test assembly limits workers to one and each scenario
 owns a new driver and application; teardown disposes the driver and checks process
 exit. Tests interact with the desktop and must not run concurrently with other
-desktop automation. Cloud/headless support remains TB-04.
+desktop automation. See [Windows CI](windows-ci.md) for TB-04 hosted evidence
+and the distinction between unattended desktop testing and headless rendering.
 
 ## Data flow and assertions
 

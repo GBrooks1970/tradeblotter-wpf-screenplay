@@ -57,5 +57,9 @@ concurrent use nor recovery from a hung UI Automation provider is implemented.
 
 The internal session seam tests adapter routing and lifecycle without Windows UI
 interaction. The explicit native smoke test exercises the real SUT separately;
-it is local desktop evidence, not proof of unattended GitHub Actions support.
+its original local run did not prove unattended GitHub Actions support. See
+[Windows CI](windows-ci.md) for subsequent hosted execution evidence. TB-04 scopes
+AutomationId/name window discovery to SUT top-level windows and their descendants,
+avoiding desktop-wide traversal of unrelated providers. Desktop-root XPath window
+expressions retain the original semantics.
 See [the validation contract](project-contract.md) for exact commands.
