@@ -7,11 +7,14 @@ been published in this record.
 
 ### Added
 
+- TB-01: vendor-neutral driver/element contracts, locators, managed FlaUI.UIA3
+  lifecycle, in-memory unit tests and an explicit native desktop smoke test.
+
 - WPF trading blotter and FlaUI.UIA3 feasibility probe, delivered in commit
   `5ef2eb5` on 2026-09-18.
 - Initial backlog and immutable Phase 0 implementation record, merged through PR #1.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-The driver abstraction, Screenplay framework, BDD suite and CI remain planned in
+The Screenplay framework, BDD suite and CI remain planned in
 [the backlog](docs/backlog.md).

@@ -7,17 +7,26 @@ Run from this repository root on Windows with the .NET 9 SDK:
 ```powershell
 dotnet build src/TradeBlotter.Sut/TradeBlotter.Sut.csproj --configuration Release
 dotnet build probes/TradeBlotter.Probe/TradeBlotter.Probe.csproj --configuration Release
+dotnet build src/TradeBlotter.Framework/TradeBlotter.Framework.csproj --configuration Release
+dotnet test tests/TradeBlotter.Framework.Tests/TradeBlotter.Framework.Tests.csproj --configuration Release --filter FullyQualifiedName~DriverTests
 ```
 
-Both commands must succeed. These initial gates compile the existing SUT and probe;
-they do not imply that a test suite or CI pipeline exists.
+All four commands must succeed. The framework tests use in-memory desktop elements
+and include a reflection check that exported signatures contain no FlaUI types.
+The application and probe builds do not run desktop automation. CI is still planned.
 
-For TB-01, additionally build the new automation framework and execute its adapter
-unit tests against mock/in-memory elements. Verify that public driver contracts
-contain no vendor-specific types. Add the exact build and test commands here when
-those projects are introduced; the current two builds alone cannot close TB-01.
-Subsequent implementation items must run the tests that exercise their acceptance
-criteria and keep these gates current as executable test projects are delivered.
+## Native smoke test
+
+The optional native integration test requires a Windows desktop and a built SUT:
+
+```powershell
+$env:TRADEBLOTTER_SUT = Join-Path (Get-Location) 'src/TradeBlotter.Sut/bin/Release/net9.0-windows/TradeBlotter.Sut.exe'
+dotnet test tests/TradeBlotter.Framework.Tests/TradeBlotter.Framework.Tests.csproj --configuration Release --filter FullyQualifiedName~DesktopSmokeTests
+```
+
+This explicitly selected test launches and closes its own application. Run it when
+changing the native adapter; it is excluded from the default unit gate. Subsequent
+items must exercise their own acceptance criteria and extend these gates as needed.
 
 For documentation changes, run `git diff --check`, verify newly added relative
 links, and scan live documents for unresolved template placeholders. Reusable
