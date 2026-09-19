@@ -35,6 +35,7 @@ public sealed class BrowseTheDesktop : IAbility
     public void Click(By locator) { RequireInteraction(); driver.Click(locator); }
     public void Type(By locator, string text) { RequireInteraction(); driver.Type(locator, text); }
     public void SwitchToWindow(By locator) { RequireInteraction(); driver.SwitchToWindow(locator); }
+    public void Select(By locator, string text) { RequireInteraction(); driver.Select(locator, text); }
     public void Close() { RequireInteraction(); driver.Close(); }
 
     private void RequireInteraction()

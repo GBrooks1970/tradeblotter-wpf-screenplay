@@ -52,8 +52,9 @@ does not add retries or promise atomic operations.
 
 Foundational tasks are `LaunchApplication`, `ClickElement`, `EnterText`,
 `SwitchWindow` and `CloseApplication`. Questions are `TextOf` and `CountOf`.
-Order-specific tasks/questions belong to TB-03 (placement), TB-05 (cancellation)
-and TB-06 (ticker polling). They are not delivered by this core acceptance item.
+TB-03 now adds placement tasks and blotter questions; see
+[order-placement BDD](order-placement-bdd.md). Cancellation and ticker behaviour
+remain TB-05 and TB-06. They were not delivered by the TB-02 core acceptance item.
 The backlog's broader Risk #2 refactor roadmap is retained with that allocation.
 
 Fourteen in-memory NUnit tests cover dispatch, fluent return, failures, ability

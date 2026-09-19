@@ -9,6 +9,7 @@ public interface IAutomationElement
     void Click();
     /// <summary>Replace the existing value; does not append text.</summary>
     void Type(string text);
+    void Select(string text);
     IAutomationElement Find(By locator);
     /// <summary>Return a snapshot of matching descendants without waiting.</summary>
     IReadOnlyList<IAutomationElement> FindAll(By locator);
@@ -23,6 +24,7 @@ public interface IWindowsAutomationDriver : IDisposable
     IReadOnlyList<IAutomationElement> FindAll(By locator);
     void Click(By locator);
     void Type(By locator, string text);
+    void Select(By locator, string text);
     /// <summary>Switch search scope to a window of the owned process.</summary>
     void SwitchToWindow(By locator);
     /// <summary>Close the owned process. A subsequent Launch starts a fresh session.</summary>

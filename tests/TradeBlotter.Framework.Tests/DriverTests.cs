@@ -31,6 +31,9 @@ public class DriverTests
         driver.Launch("app.exe");
         driver.Type(locator, "250000");
         driver.Type(locator, "10");
+        driver.Select(locator, "LIMIT");
+        Assert.That(driver.Find(locator).Text, Is.EqualTo("LIMIT"));
+        driver.Type(locator, "10");
         driver.Click(locator);
         var found = driver.Find(locator);
         Assert.Multiple(() =>
@@ -245,6 +248,7 @@ public class DriverTests
         public Dictionary<By, MemoryElement[]> Children { get; } = [];
         public void Click() => Clicks++;
         public void Type(string text) => Text = text;
+        public void Select(string text) => Text = text;
         public void Focus() => Focused = true;
         public IReadOnlyList<IDesktopElement> FindAll(By locator)
         {

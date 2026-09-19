@@ -45,6 +45,7 @@ public sealed class FlaUiDriverAdapter : IWindowsAutomationDriver
     public IReadOnlyList<IAutomationElement> FindAll(By locator) => FindElements(CurrentWindow(), locator).Select(Wrap).ToArray();
     public void Click(By locator) => Find(locator).Click();
     public void Type(By locator, string text) => Find(locator).Type(text);
+    public void Select(By locator, string text) => Find(locator).Select(text);
 
     public void SwitchToWindow(By locator)
     {
@@ -122,6 +123,11 @@ public sealed class FlaUiDriverAdapter : IWindowsAutomationDriver
         {
             ArgumentNullException.ThrowIfNull(text);
             Live.Type(text);
+        }
+        public void Select(string text)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(text);
+            Live.Select(text);
         }
         public IAutomationElement Find(By locator) => owner.Wrap(owner.FindElement(Live, locator));
         public IReadOnlyList<IAutomationElement> FindAll(By locator) => owner.FindElements(Live, locator).Select(owner.Wrap).ToArray();

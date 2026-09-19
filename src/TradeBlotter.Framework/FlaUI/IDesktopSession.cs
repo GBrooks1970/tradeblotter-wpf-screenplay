@@ -18,6 +18,7 @@ internal interface IDesktopElement
     bool IsEnabled { get; }
     void Click();
     void Type(string text);
+    void Select(string text);
     void Focus();
     IReadOnlyList<IDesktopElement> FindAll(By locator);
 }

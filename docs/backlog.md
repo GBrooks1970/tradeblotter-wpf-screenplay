@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 3 — TB-02 Screenplay core and actors delivered
+**Version:** 4 — TB-03 order-placement BDD delivered
 **Last Updated:** 2026-09-19
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -29,35 +29,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 **Status vocabulary:** `READY TO START`, `IN PROGRESS` and `BLOCKED` are stages of open work; `COMPLETE` is a delivery; `RECORDED` is the accepted-risk terminal state.
 
 ### HIGH Priority (Score: 20–30)
-
-#### Risk #3: Order Entry & Blotter Verification BDD Feature Suite — Score: 23
-
-**Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (8) = **23 points**  
-**Impact:** Living documentation and executable specification proving end-to-end trading workflows.  
-**Effort:** 8–10 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** Test Specifications (`TradeBlotter.Specs`)  
-
-**Problem:**
-Lack of executable BDD feature specifications leaves business rules for order placement (LIMIT/MARKET orders, quantities, pricing validation) and blotter state transitions unverified.
-
-**Impact Analysis:**
-- **Security (6/10):** Financial trading requires verifiable audit trails; automation must assert exact order states and limits.
-- **Breakage (9/10):** High risk of regression when WPF UI layout or two-way bindings change without BDD regression gates.
-- **Maintenance (8/10):** Reqnroll Gherkin provides stakeholder-readable specifications that serve as executable documentation.
-
-**Refactor Strategy:**
-1. Scaffold `TradeBlotter.Specs` referencing Reqnroll, NUnit, and project dependencies.
-2. Author `OrderPlacement.feature` defining LIMIT and MARKET order submission scenarios.
-3. Author step definitions connecting Gherkin steps to `TommyTrader` Screenplay tasks and questions.
-4. Execute test suite locally against `TradeBlotter.Sut` and assert 100% scenario pass rate.
-
-**Success Criteria:**
-- [ ] `OrderPlacement.feature` authored with minimum 3 complete scenarios (LIMIT order, MARKET order, validation error).
-- [ ] Reqnroll step definitions execute cleanly without raw UI driver calls.
-- [ ] All scenarios pass under NUnit test runner.
-
----
 
 #### Risk #4: Zero-Cost Headless GitHub Actions Windows CI Pipeline — Score: 22
 
@@ -198,6 +169,38 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 
 ### Resolved Risks
 
+#### Risk #3: Order Entry & Blotter Verification BDD Feature Suite — Score: 23
+
+**Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (8) = **23 points**
+**Impact:** Living documentation and executable specification proving end-to-end trading workflows.
+**Effort:** 8–10 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Test Specifications (`TradeBlotter.Specs`)
+
+**Problem:**
+Lack of executable BDD feature specifications leaves business rules for order placement (LIMIT/MARKET orders, quantities, pricing validation) and blotter state transitions unverified.
+
+**Impact Analysis:**
+- **Security (6/10):** Financial trading requires verifiable audit trails; automation must assert exact order states and limits.
+- **Breakage (9/10):** High risk of regression when WPF UI layout or two-way bindings change without BDD regression gates.
+- **Maintenance (8/10):** Reqnroll Gherkin provides stakeholder-readable specifications that serve as executable documentation.
+
+**Refactor Strategy:**
+1. Scaffold `TradeBlotter.Specs` referencing Reqnroll, NUnit, and project dependencies.
+2. Author `OrderPlacement.feature` defining LIMIT and MARKET order submission scenarios.
+3. Author step definitions connecting Gherkin steps to `TommyTrader` Screenplay tasks and questions.
+4. Execute test suite locally against `TradeBlotter.Sut` and assert 100% scenario pass rate.
+
+**Success Criteria:**
+- [x] `OrderPlacement.feature` authored with minimum 3 complete scenarios (LIMIT order, MARKET order, validation error).
+- [x] Reqnroll step definitions execute cleanly without raw UI driver calls.
+- [x] All scenarios pass under NUnit test runner.
+
+**Resolution (TB-03):** Four Reqnroll/NUnit scenarios pass against the real WPF SUT: LIMIT, MARKET, invalid quantity and invalid price. Screenplay tasks/questions handle interactions and typed blotter verification; hooks own one process per scenario. See [BDD evidence and reproduction](order-placement-bdd.md).
+
+---
+
+
 #### Risk #2: Screenplay Pattern Architecture Core & Trading Actors — Score: 24
 
 **Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (9) = **24 points**
@@ -274,8 +277,8 @@ Without a robust driver abstraction layer, test step definitions directly couple
 
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
-| HIGH (20–30) | 2 | 12–16 hrs | 2 READY TO START |
+| HIGH (20–30) | 1 | 4–6 hrs | 1 READY TO START |
 | MEDIUM (10–19) | 4 | 20–27 hrs | 4 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **6** | **32–43 hrs** | 6 READY TO START |
-| Resolved | 3 | Actual TB-01/TB-02 effort not measured | 3 COMPLETE |
+| **Total Outstanding** | **5** | **24–33 hrs** | 5 READY TO START |
+| Resolved | 4 | Actual TB-01/TB-02/TB-03 effort not measured | 4 COMPLETE |
