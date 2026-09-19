@@ -7,6 +7,11 @@ been published in this record.
 
 ### Added
 
+- TB-04: Windows-hosted CI workflow, a reproducible 36-test gate with hang
+  timeouts, exact-count checks, TRX artifacts and desktop diagnostics.
+  Modal lookup now scopes AutomationId/name discovery to SUT windows to avoid
+  desktop-wide UI Automation traversal.
+
 - TB-03: four Reqnroll/NUnit desktop order-placement scenarios, PlaceOrder tasks,
   typed BlotterOrders observations and guarded combo-box selection.
 
@@ -23,5 +28,5 @@ been published in this record.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-Cancellation/ticker BDD coverage and CI remain planned in
+Cancellation/ticker BDD coverage and additional driver adapters remain planned in
 [the backlog](docs/backlog.md).

@@ -4,7 +4,8 @@ A C#/.NET 9 Windows desktop automation project built around a WPF trading blotte
 The repository contains the subject under test (SUT), a FlaUI.UIA3 feasibility
 probe, a vendor-neutral driver contract with a tested FlaUI adapter, and a
 Screenplay core with trading and read-only auditing actors, and four Reqnroll
-order-placement scenarios. CI remains planned work.
+order-placement scenarios. A Windows CI workflow runs the complete verification
+gate; [hosted acceptance evidence](docs/windows-ci.md) tracks TB-04 completion.
 
 ## Prerequisites and build
 
@@ -39,9 +40,9 @@ establish unattended or cloud CI support.
 - [Changelog](CHANGELOG.md): notable changes.
 
 TB-01 delivers driver abstraction, TB-02 the Screenplay core and TB-03 order-placement
-BDD. The remaining backlog covers Windows CI, cancellation and ticker verification,
-then WinAppDriver and Ranorex adapters with comparative benchmarking. The five
-open items remain governed by the backlog. Some historical records link to sibling
+BDD. TB-04 adds Windows CI; the backlog governs its acceptance status and the
+remaining cancellation, ticker, WinAppDriver and Ranorex work with comparative
+benchmarking. Some historical records link to sibling
 portfolio documents; those links require the full portfolio workspace.
 
 The project is registered in the portfolio and has a public landing entry.
@@ -50,3 +51,6 @@ See [driver usage and lifecycle](docs/driver-abstraction.md) for the TB-01 API.
 See [Screenplay core and actor roles](docs/screenplay-core.md) for TB-02 usage.
 
 See [order-placement BDD](docs/order-placement-bdd.md) for the four real-desktop scenarios and run command.
+
+Run `./scripts/verify-ci.ps1` in PowerShell 7 on a Windows desktop to reproduce
+the CI gate: seven builds and 36 tests with TRX output and exact-count checks.

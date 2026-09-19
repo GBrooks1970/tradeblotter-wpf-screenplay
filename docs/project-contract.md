@@ -15,7 +15,17 @@ dotnet test tests/TradeBlotter.Screenplay.Tests/TradeBlotter.Screenplay.Tests.cs
 
 All six non-UI commands must succeed. The framework tests use in-memory desktop elements
 and include a reflection check that exported signatures contain no FlaUI types.
-The application and probe builds do not run desktop automation. CI is still planned.
+The application and probe builds do not run desktop automation.
+
+## Complete Windows CI gate
+
+Run `./scripts/verify-ci.ps1` from PowerShell 7 with an available Windows desktop.
+This includes the six non-UI gates above, builds all seven projects and executes
+16 framework tests, 15 Screenplay tests, 4 BDD scenarios and the explicit native
+smoke test sequentially. It requires exact executed/passed counts, writes four
+TRX reports and rejects remaining SUT processes. Update its expected counts when
+adding tests. The workflow runs this gate on pushes and pull requests; see
+[Windows CI](windows-ci.md) for permissions, timeouts and hosted evidence.
 
 ## Order-placement acceptance gate
 
@@ -47,8 +57,8 @@ links, and scan live documents for unresolved template placeholders. Reusable
 `*.template.md` files intentionally retain their placeholders.
 
 The Phase 0 UI probe is historical feasibility evidence. Running desktop automation
-requires a suitable Windows desktop session; unattended/cloud operation remains
-unverified until the CI backlog item supplies evidence. Do not start the SUT or run
+requires a suitable Windows desktop session; hosted support is established only
+by the executions recorded in [Windows CI](windows-ci.md). Do not start the SUT or run
 the interactive probe as part of documentation-only validation.
 
 ## Working norms
