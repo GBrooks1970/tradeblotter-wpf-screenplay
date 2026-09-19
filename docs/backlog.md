@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 2 — TB-01 driver abstraction delivered
+**Version:** 3 — TB-02 Screenplay core and actors delivered
 **Last Updated:** 2026-09-19
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -29,36 +29,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 **Status vocabulary:** `READY TO START`, `IN PROGRESS` and `BLOCKED` are stages of open work; `COMPLETE` is a delivery; `RECORDED` is the accepted-risk terminal state.
 
 ### HIGH Priority (Score: 20–30)
-
-#### Risk #2: Screenplay Pattern Architecture Core & Trading Actors — Score: 24
-
-**Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (9) = **24 points**  
-**Impact:** Core domain task abstraction providing narrative readability and maintainable UI interactions.  
-**Effort:** 6–8 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** Screenplay Domain Layer (`TradeBlotter.Screenplay`)  
-
-**Problem:**
-Traditional Page Object Models in desktop automation suffer from monolithic classes and fragile locator coupling. Screenplay pattern solves this by separating Actors, Abilities, Tasks, and Questions, but requires a clean C# implementation.
-
-**Impact Analysis:**
-- **Security (6/10):** Actor role permissions (e.g. `TommyTrader` vs `AdamAuditor`) must be strictly segregated in automation abilities.
-- **Breakage (9/10):** Fragile UI synchronization without Screenplay interaction waiting strategies causes intermittent flakiness.
-- **Maintenance (9/10):** Tasks and Questions provide reusable, composable business building blocks that reduce code duplication by >60%.
-
-**Refactor Strategy:**
-1. Implement Screenplay core: `Actor`, `IAbility`, `ITask`, `IQuestion<T>`.
-2. Implement `BrowseTheDesktop` ability wrapping `IWindowsAutomationDriver`.
-3. Define Screenplay actors: `TommyTrader` (trading actions) and `AdamAuditor` (read-only audit/inspection).
-4. Implement foundational tasks: `LaunchApplication`, `PlaceOrder`, `CancelOrder`.
-5. Implement foundational questions: `BlotterOrdersCount`, `OrderStatusOf`, `TickerPrice`.
-
-**Success Criteria:**
-- [ ] Screenplay core interfaces and classes authored under `TradeBlotter.Screenplay`.
-- [ ] `BrowseTheDesktop` ability enables actors to execute driver operations fluently.
-- [ ] `TommyTrader` and `AdamAuditor` actors instantiated and verified with appropriate abilities.
-
----
 
 #### Risk #3: Order Entry & Blotter Verification BDD Feature Suite — Score: 23
 
@@ -228,6 +198,39 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 
 ### Resolved Risks
 
+#### Risk #2: Screenplay Pattern Architecture Core & Trading Actors — Score: 24
+
+**Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (9) = **24 points**
+**Impact:** Core domain task abstraction providing narrative readability and maintainable UI interactions.
+**Effort:** 6–8 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Screenplay Domain Layer (`TradeBlotter.Screenplay`)
+
+**Problem:**
+Traditional Page Object Models in desktop automation suffer from monolithic classes and fragile locator coupling. Screenplay pattern solves this by separating Actors, Abilities, Tasks, and Questions, but requires a clean C# implementation.
+
+**Impact Analysis:**
+- **Security (6/10):** Actor role permissions (e.g. `TommyTrader` vs `AdamAuditor`) must be strictly segregated in automation abilities.
+- **Breakage (9/10):** Fragile UI synchronization without Screenplay interaction waiting strategies causes intermittent flakiness.
+- **Maintenance (9/10):** Tasks and Questions provide reusable, composable business building blocks that reduce code duplication by >60%.
+
+**Refactor Strategy:**
+1. Implement Screenplay core: `Actor`, `IAbility`, `ITask`, `IQuestion<T>`.
+2. Implement `BrowseTheDesktop` ability wrapping `IWindowsAutomationDriver`.
+3. Define Screenplay actors: `TommyTrader` (trading actions) and `AdamAuditor` (read-only audit/inspection).
+4. Implement foundational tasks: `LaunchApplication`, `PlaceOrder`, `CancelOrder`.
+5. Implement foundational questions: `BlotterOrdersCount`, `OrderStatusOf`, `TickerPrice`.
+
+**Success Criteria:**
+- [x] Screenplay core interfaces and classes authored under `TradeBlotter.Screenplay`.
+- [x] `BrowseTheDesktop` ability enables actors to execute driver operations fluently.
+- [x] `TommyTrader` and `AdamAuditor` actors instantiated and verified with appropriate abilities.
+
+**Resolution (TB-02):** Core contracts, desktop ability, TommyTrader and AdamAuditor are implemented and covered by 14 in-memory tests. Auditor mutation is blocked at both actor dispatch and ability boundaries. The refactor roadmap's order tasks/questions remain allocated to TB-03, TB-05 and TB-06; this item closes the three core success criteria only. See [Screenplay documentation](screenplay-core.md).
+
+---
+
+
 #### Risk #1: Driver Abstraction Layer & Core Driver Interfaces — Score: 26
 
 **Priority Score:** Security Impact (7) + Breakage Probability (10) + Maintenance Burden (9) = **26 points**
@@ -271,8 +274,8 @@ Without a robust driver abstraction layer, test step definitions directly couple
 
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
-| HIGH (20–30) | 3 | 18–24 hrs | 3 READY TO START |
+| HIGH (20–30) | 2 | 12–16 hrs | 2 READY TO START |
 | MEDIUM (10–19) | 4 | 20–27 hrs | 4 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **7** | **38–51 hrs** | 7 READY TO START |
-| Resolved | 2 | Actual TB-01 effort not measured | 2 COMPLETE |
+| **Total Outstanding** | **6** | **32–43 hrs** | 6 READY TO START |
+| Resolved | 3 | Actual TB-01/TB-02 effort not measured | 3 COMPLETE |

@@ -2,8 +2,9 @@
 
 A C#/.NET 9 Windows desktop automation project built around a WPF trading blotter.
 The repository contains the subject under test (SUT), a FlaUI.UIA3 feasibility
-probe, and a vendor-neutral driver contract with a tested FlaUI adapter. Screenplay
-actors, Reqnroll scenarios and CI remain planned work.
+probe, a vendor-neutral driver contract with a tested FlaUI adapter, and a
+Screenplay core with trading and read-only auditing actors. Reqnroll scenarios
+and CI remain planned work.
 
 ## Prerequisites and build
 
@@ -16,7 +17,7 @@ dotnet build probes/TradeBlotter.Probe/TradeBlotter.Probe.csproj --configuration
 
 Builds restore NuGet dependencies as required. The probe pins FlaUI.UIA3 5.0.0.
 These compile the SUT and historical probe. The [project contract](docs/project-contract.md)
-also requires the framework build and in-memory unit tests.
+also requires framework and Screenplay builds and in-memory unit tests.
 
 To inspect the trading blotter interactively:
 
@@ -37,11 +38,13 @@ establish unattended or cloud CI support.
 - [Implementation-log template](docs/templates/implementation-log.template.md): reusable record for completed work.
 - [Changelog](CHANGELOG.md): notable changes.
 
-TB-01 delivers the driver abstraction. The remaining backlog begins with Screenplay core,
-order-placement BDD scenarios, Windows CI, cancellation and ticker verification,
-then WinAppDriver and Ranorex adapters with comparative benchmarking. The seven
+TB-01 delivers driver abstraction and TB-02 delivers the Screenplay core. The
+remaining backlog covers order-placement BDD scenarios, Windows CI, cancellation and ticker verification,
+then WinAppDriver and Ranorex adapters with comparative benchmarking. The six
 open items remain governed by the backlog. Some historical records link to sibling
 portfolio documents; those links require the full portfolio workspace.
 
 The project is registered in the portfolio and has a public landing entry.
 See [driver usage and lifecycle](docs/driver-abstraction.md) for the TB-01 API.
+
+See [Screenplay core and actor roles](docs/screenplay-core.md) for TB-02 usage.
