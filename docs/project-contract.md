@@ -9,9 +9,11 @@ dotnet build src/TradeBlotter.Sut/TradeBlotter.Sut.csproj --configuration Releas
 dotnet build probes/TradeBlotter.Probe/TradeBlotter.Probe.csproj --configuration Release
 dotnet build src/TradeBlotter.Framework/TradeBlotter.Framework.csproj --configuration Release
 dotnet test tests/TradeBlotter.Framework.Tests/TradeBlotter.Framework.Tests.csproj --configuration Release --filter FullyQualifiedName~DriverTests
+dotnet build src/TradeBlotter.Screenplay/TradeBlotter.Screenplay.csproj --configuration Release
+dotnet test tests/TradeBlotter.Screenplay.Tests/TradeBlotter.Screenplay.Tests.csproj --configuration Release
 ```
 
-All four commands must succeed. The framework tests use in-memory desktop elements
+All six commands must succeed. The framework tests use in-memory desktop elements
 and include a reflection check that exported signatures contain no FlaUI types.
 The application and probe builds do not run desktop automation. CI is still planned.
 

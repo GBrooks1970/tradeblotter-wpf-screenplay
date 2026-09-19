@@ -7,6 +7,10 @@ been published in this record.
 
 ### Added
 
+- TB-02: Screenplay actor, ability, task and question contracts; desktop ability
+  with guarded inspection; TommyTrader and AdamAuditor factories; core tasks,
+  questions and 14 in-memory tests.
+
 - TB-01: vendor-neutral driver/element contracts, locators, managed FlaUI.UIA3
   lifecycle, in-memory unit tests and an explicit native desktop smoke test.
 
@@ -16,5 +20,5 @@ been published in this record.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-The Screenplay framework, BDD suite and CI remain planned in
+The order-specific BDD suite and CI remain planned in
 [the backlog](docs/backlog.md).
