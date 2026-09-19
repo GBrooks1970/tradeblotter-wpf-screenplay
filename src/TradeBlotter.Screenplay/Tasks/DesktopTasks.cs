@@ -27,3 +27,8 @@ public sealed record CloseApplication : ITask
 {
     public void PerformAs(Actor actor) => actor.AbilityTo<BrowseTheDesktop>().Close();
 }
+
+public sealed record SelectOption(By Locator, string Text) : ITask
+{
+    public void PerformAs(Actor actor) => actor.AbilityTo<BrowseTheDesktop>().Select(Locator, Text);
+}

@@ -13,9 +13,21 @@ dotnet build src/TradeBlotter.Screenplay/TradeBlotter.Screenplay.csproj --config
 dotnet test tests/TradeBlotter.Screenplay.Tests/TradeBlotter.Screenplay.Tests.csproj --configuration Release
 ```
 
-All six commands must succeed. The framework tests use in-memory desktop elements
+All six non-UI commands must succeed. The framework tests use in-memory desktop elements
 and include a reflection check that exported signatures contain no FlaUI types.
 The application and probe builds do not run desktop automation. CI is still planned.
+
+## Order-placement acceptance gate
+
+TB-03 and changes to placement tasks, driver interactions or the SUT additionally
+require a Windows desktop and this real-application suite:
+
+```powershell
+dotnet test tests/TradeBlotter.Specs/TradeBlotter.Specs.csproj --configuration Release --logger "console;verbosity=normal"
+```
+
+The project builds and copies its own SUT. Run desktop suites sequentially. See
+[order-placement BDD](order-placement-bdd.md) for isolation and fixture boundaries.
 
 ## Native smoke test
 

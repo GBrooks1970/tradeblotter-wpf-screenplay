@@ -34,6 +34,7 @@ public class ScreenplayTests
     [TestCase("type")]
     [TestCase("window")]
     [TestCase("close")]
+    [TestCase("select")]
     public void AuditorCannotMutateEvenWhenTaskIsInvokedDirectly(string operation)
     {
         var driver = new FakeDriver();
@@ -44,6 +45,7 @@ public class ScreenplayTests
             "click" => new ClickElement(Field),
             "type" => new EnterText(Field, "x"),
             "window" => new SwitchWindow(Field),
+            "select" => new SelectOption(Field, "MARKET"),
             _ => new CloseApplication()
         };
         Assert.Throws<InvalidOperationException>(() => auditor.AttemptsTo(task));
@@ -159,6 +161,7 @@ public class ScreenplayTests
         public void Click(By locator) => Calls.Add($"click:{locator}");
         public void Type(By locator, string text) { Calls.Add($"type:{locator}:{text}"); element.Type(text); }
         public void SwitchToWindow(By locator) => Calls.Add($"window:{locator}");
+        public void Select(By locator, string text) => Calls.Add($"select:{locator}:{text}");
         public void Close() => Calls.Add("close");
         public void Dispose() => Calls.Add("dispose");
     }
@@ -170,6 +173,7 @@ public class ScreenplayTests
         public bool IsEnabled => true;
         public void Click() => throw new AssertionException("Mutable element escaped observation boundary.");
         public void Type(string text) => Text = text;
+        public void Select(string text) => Text = text;
         public IAutomationElement Find(By locator) => this;
         public IReadOnlyList<IAutomationElement> FindAll(By locator) => [this];
     }

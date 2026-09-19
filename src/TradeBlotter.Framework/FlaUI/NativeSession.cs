@@ -95,6 +95,11 @@ internal sealed class NativeElement(AutomationElement element) : IDesktopElement
         if (!IsEnabled) throw new InvalidOperationException("Cannot type into a disabled element.");
         element.Patterns.Value.Pattern.SetValue(text);
     }
+    public void Select(string text)
+    {
+        if (!IsEnabled) throw new InvalidOperationException("Cannot select a disabled element.");
+        element.AsComboBox().Select(text);
+    }
     public void Focus() => element.Focus();
     public IReadOnlyList<IDesktopElement> FindAll(By locator) => Find(element, locator).Select(e => (IDesktopElement)new NativeElement(e)).ToArray();
 

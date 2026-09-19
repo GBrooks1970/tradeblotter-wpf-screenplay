@@ -7,6 +7,9 @@ been published in this record.
 
 ### Added
 
+- TB-03: four Reqnroll/NUnit desktop order-placement scenarios, PlaceOrder tasks,
+  typed BlotterOrders observations and guarded combo-box selection.
+
 - TB-02: Screenplay actor, ability, task and question contracts; desktop ability
   with guarded inspection; TommyTrader and AdamAuditor factories; core tasks,
   questions and 14 in-memory tests.
@@ -20,5 +23,5 @@ been published in this record.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-The order-specific BDD suite and CI remain planned in
+Cancellation/ticker BDD coverage and CI remain planned in
 [the backlog](docs/backlog.md).

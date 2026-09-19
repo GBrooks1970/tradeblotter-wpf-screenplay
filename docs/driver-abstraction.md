@@ -37,6 +37,9 @@ string quantity = driver.Find(By.AutomationId("TxtQuantity")).Text;
   pattern where supported, falling back to a physical click. Disabled controls
   reject typing/clicking. Unsupported or read-only value patterns report errors.
 
+`Select` chooses a combo-box item by exact text through the native adapter;
+disabled controls are rejected. TB-03 adds this operation for order entry.
+
 ## Lifecycle and timing
 
 Launch creates a new process; attaching to existing applications is not supported.

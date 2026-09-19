@@ -3,8 +3,8 @@
 A C#/.NET 9 Windows desktop automation project built around a WPF trading blotter.
 The repository contains the subject under test (SUT), a FlaUI.UIA3 feasibility
 probe, a vendor-neutral driver contract with a tested FlaUI adapter, and a
-Screenplay core with trading and read-only auditing actors. Reqnroll scenarios
-and CI remain planned work.
+Screenplay core with trading and read-only auditing actors, and four Reqnroll
+order-placement scenarios. CI remains planned work.
 
 ## Prerequisites and build
 
@@ -38,9 +38,9 @@ establish unattended or cloud CI support.
 - [Implementation-log template](docs/templates/implementation-log.template.md): reusable record for completed work.
 - [Changelog](CHANGELOG.md): notable changes.
 
-TB-01 delivers driver abstraction and TB-02 delivers the Screenplay core. The
-remaining backlog covers order-placement BDD scenarios, Windows CI, cancellation and ticker verification,
-then WinAppDriver and Ranorex adapters with comparative benchmarking. The six
+TB-01 delivers driver abstraction, TB-02 the Screenplay core and TB-03 order-placement
+BDD. The remaining backlog covers Windows CI, cancellation and ticker verification,
+then WinAppDriver and Ranorex adapters with comparative benchmarking. The five
 open items remain governed by the backlog. Some historical records link to sibling
 portfolio documents; those links require the full portfolio workspace.
 
@@ -48,3 +48,5 @@ The project is registered in the portfolio and has a public landing entry.
 See [driver usage and lifecycle](docs/driver-abstraction.md) for the TB-01 API.
 
 See [Screenplay core and actor roles](docs/screenplay-core.md) for TB-02 usage.
+
+See [order-placement BDD](docs/order-placement-bdd.md) for the four real-desktop scenarios and run command.
