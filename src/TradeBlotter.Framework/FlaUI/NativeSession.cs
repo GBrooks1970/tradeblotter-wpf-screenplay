@@ -39,9 +39,13 @@ internal sealed class NativeSession : IDesktopSession
 
     public IDesktopElement? FindWindow(By locator)
     {
-        // Restrict discovery to this process, including owned modal windows.
+        // Enumerate only top-level SUT windows before descending into owned dialogs.
+        // A desktop-wide descendant scan can block on unrelated UIA providers.
         var root = automation.GetDesktop();
-        var windows = root.FindAllDescendants(cf => cf.ByProcessId(app.ProcessId).And(cf.ByControlType(global::FlaUI.Core.Definitions.ControlType.Window)));
+        var topLevel = root.FindAllChildren(cf => cf.ByProcessId(app.ProcessId));
+        var windows = topLevel.Concat(topLevel.SelectMany(w => w.FindAllDescendants(cf =>
+            cf.ByProcessId(app.ProcessId).And(cf.ByControlType(global::FlaUI.Core.Definitions.ControlType.Window)))))
+            .ToArray();
         var result = locator.Strategy switch
         {
             LocatorStrategy.AutomationId => windows.FirstOrDefault(w => w.AutomationId == locator.Value),
