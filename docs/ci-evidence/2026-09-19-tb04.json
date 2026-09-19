@@ -1,0 +1,262 @@
+{
+  "capturedDate": "2026-09-19",
+  "source": "GitHub Actions run metadata, job logs and downloaded TRX/desktop artifacts",
+  "runs": [
+    {
+      "runId": 35464147718,
+      "attempt": 1,
+      "url": "https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464147718",
+      "headSha": "d8ce0419fcfedc494b8c24eb5c789ec3914dfb8e",
+      "checkoutSha": "d8ce0419fcfedc494b8c24eb5c789ec3914dfb8e",
+      "conclusion": "success",
+      "jobStartedAt": "2026-09-19T19:22:27Z",
+      "jobCompletedAt": "2026-09-19T19:24:33Z",
+      "jobElapsedSeconds": 126.0,
+      "buildSuccessCount": 7,
+      "zeroWarningBuildCount": 7,
+      "zeroErrorBuildCount": 7,
+      "noRemainingSutProcess": true,
+      "desktop": {
+        "OS": "Microsoft Windows NT 10.0.26100.0",
+        "SessionId": 2,
+        "UserInteractive": true,
+        "Screen": "{X=0,Y=0,Width=1024,Height=768}",
+        "ImageVersion": "20260907.229.1"
+      },
+      "suites": [
+        {
+          "suite": "bdd",
+          "total": 4,
+          "executed": 4,
+          "passed": 4,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 11.953,
+          "trxSha256": "b6c2b1f97c313e9c845769a6e1a5e6a334ba9c82e1bfcaddb2d48821bec32376"
+        },
+        {
+          "suite": "framework",
+          "total": 16,
+          "executed": 16,
+          "passed": 16,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.2163,
+          "trxSha256": "dbc6bc27335f813fab763582bcd808b85801cd7609948dbc19e7ed233c342ac4"
+        },
+        {
+          "suite": "native",
+          "total": 1,
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 7.3529,
+          "trxSha256": "f8b6b0a61c45c5776b726ca63dca6ef04e9fab5f24dffece3f0fc41fcc206ba6"
+        },
+        {
+          "suite": "screenplay",
+          "total": 15,
+          "executed": 15,
+          "passed": 15,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.0304,
+          "trxSha256": "2fbcf90d88e697d74a0643928a155580101a0b9d76d5b4a2ae19a3f360f1be8a"
+        }
+      ]
+    },
+    {
+      "runId": 35464160765,
+      "attempt": 1,
+      "url": "https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464160765",
+      "headSha": "d8ce0419fcfedc494b8c24eb5c789ec3914dfb8e",
+      "checkoutSha": "71cc15eae9f50041c3766e2aff8f6b7643f53120",
+      "conclusion": "success",
+      "jobStartedAt": "2026-09-19T19:22:41Z",
+      "jobCompletedAt": "2026-09-19T19:24:56Z",
+      "jobElapsedSeconds": 135.0,
+      "buildSuccessCount": 7,
+      "zeroWarningBuildCount": 7,
+      "zeroErrorBuildCount": 7,
+      "noRemainingSutProcess": true,
+      "desktop": {
+        "OS": "Microsoft Windows NT 10.0.26100.0",
+        "SessionId": 2,
+        "UserInteractive": true,
+        "Screen": "{X=0,Y=0,Width=1024,Height=768}",
+        "ImageVersion": "20260907.229.1"
+      },
+      "suites": [
+        {
+          "suite": "bdd",
+          "total": 4,
+          "executed": 4,
+          "passed": 4,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 9.3154,
+          "trxSha256": "1bbb6c6820c4281f14f615cccf53e8a6fccc7a1bb1f49b060e8deb52990d4e28"
+        },
+        {
+          "suite": "framework",
+          "total": 16,
+          "executed": 16,
+          "passed": 16,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.1857,
+          "trxSha256": "1c9c2ce2a744cdd52e6002f89aa4c96c7e99b5a6675aa2b886335b2b631bd4f3"
+        },
+        {
+          "suite": "native",
+          "total": 1,
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 6.8066,
+          "trxSha256": "3ac095be26502031874953572b6a05c1c5d5d6690f96b3bf9312d391eb8d0a37"
+        },
+        {
+          "suite": "screenplay",
+          "total": 15,
+          "executed": 15,
+          "passed": 15,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 0.8034,
+          "trxSha256": "ff421b00953d849f9305bfc94c87bf34044a6d9b723199488a8aad168c33b629"
+        }
+      ]
+    },
+    {
+      "runId": 35464309574,
+      "attempt": 1,
+      "url": "https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464309574",
+      "headSha": "accd534ec872c34d3c57fc9e86379492d2873767",
+      "checkoutSha": "accd534ec872c34d3c57fc9e86379492d2873767",
+      "conclusion": "success",
+      "jobStartedAt": "2026-09-19T19:25:38Z",
+      "jobCompletedAt": "2026-09-19T19:27:43Z",
+      "jobElapsedSeconds": 125.0,
+      "buildSuccessCount": 7,
+      "zeroWarningBuildCount": 7,
+      "zeroErrorBuildCount": 7,
+      "noRemainingSutProcess": true,
+      "desktop": {
+        "OS": "Microsoft Windows NT 10.0.26100.0",
+        "SessionId": 2,
+        "UserInteractive": true,
+        "Screen": "{X=0,Y=0,Width=1024,Height=768}",
+        "ImageVersion": "20260907.229.1"
+      },
+      "suites": [
+        {
+          "suite": "bdd",
+          "total": 4,
+          "executed": 4,
+          "passed": 4,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 12.017,
+          "trxSha256": "2af55da853bfe7aa6db166942e05ebfa67b71e624c11af148de24be8e1e82eac"
+        },
+        {
+          "suite": "framework",
+          "total": 16,
+          "executed": 16,
+          "passed": 16,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.2593,
+          "trxSha256": "831dbc77490c05a6ec1abdddccd0474403679db7c71727dcb287f60fe2938768"
+        },
+        {
+          "suite": "native",
+          "total": 1,
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 7.3722,
+          "trxSha256": "72369e6bfebd1d022c9fb59b4d78e5b4306a4d030da99561e33d17a022bd339f"
+        },
+        {
+          "suite": "screenplay",
+          "total": 15,
+          "executed": 15,
+          "passed": 15,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.0412,
+          "trxSha256": "bdbf5d78fc233d5951e225f22e805c8e0c3f083ea97c0007c0ace322ebcf21f3"
+        }
+      ]
+    },
+    {
+      "runId": 35464311504,
+      "attempt": 1,
+      "url": "https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464311504",
+      "headSha": "accd534ec872c34d3c57fc9e86379492d2873767",
+      "checkoutSha": "dae47d7dbbade408c2d34df1f6c481329aafe0b2",
+      "conclusion": "success",
+      "jobStartedAt": "2026-09-19T19:25:39Z",
+      "jobCompletedAt": "2026-09-19T19:27:39Z",
+      "jobElapsedSeconds": 120.0,
+      "buildSuccessCount": 7,
+      "zeroWarningBuildCount": 7,
+      "zeroErrorBuildCount": 7,
+      "noRemainingSutProcess": true,
+      "desktop": {
+        "OS": "Microsoft Windows NT 10.0.26100.0",
+        "SessionId": 2,
+        "UserInteractive": true,
+        "Screen": "{X=0,Y=0,Width=1024,Height=768}",
+        "ImageVersion": "20260907.229.1"
+      },
+      "suites": [
+        {
+          "suite": "bdd",
+          "total": 4,
+          "executed": 4,
+          "passed": 4,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 10.6241,
+          "trxSha256": "2f862266a97a93ea89af1b4c5086620b42ea4d922f70f5a76cff41e7eb6325b3"
+        },
+        {
+          "suite": "framework",
+          "total": 16,
+          "executed": 16,
+          "passed": 16,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.7405,
+          "trxSha256": "2e9ad8d53e8c44bd9d1d7ede97c7ce7ed9cca7d1233cd3a7d278ce74e3ffe4ac"
+        },
+        {
+          "suite": "native",
+          "total": 1,
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 7.1146,
+          "trxSha256": "dc544086d32cbd033a175d642ac677b675893ee3221b4b45106a90b6cc04f6b8"
+        },
+        {
+          "suite": "screenplay",
+          "total": 15,
+          "executed": 15,
+          "passed": 15,
+          "failed": 0,
+          "notExecuted": 0,
+          "elapsedSeconds": 1.0028,
+          "trxSha256": "1e1913e08ad496ef465fa6883b00e2e407490bab00418391238f9f535cf96861"
+        }
+      ]
+    }
+  ]
+}

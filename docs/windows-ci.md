@@ -35,9 +35,8 @@ machine or external driver daemon is required. The repository is public and the
 workflow selects the standard hosted runner, not a paid larger runner; GitHub's
 applicable billing terms remain authoritative.
 
-Hosted execution must be proven by actual successful runs before TB-04 closes.
-Local success alone is insufficient. No custom resolution, RDP access or credential
-configuration is applied unless runner evidence establishes a need.
+The recorded hosted executions below establish TB-04 acceptance. No custom
+resolution, RDP access or credential configuration was needed.
 
 GitHub provisions a fresh VM for each hosted job; see
 [GitHub-hosted runners](https://docs.github.com/en/actions/how-tos/manage-runners/github-hosted-runners/use-github-hosted-runners).
@@ -51,6 +50,37 @@ The first full local run stalled while discovering the order-entry window. Tempo
 
 ## Acceptance evidence
 
-Pending: record three consecutive successful hosted executions, identifying each
-run ID, attempt and tested revision. Reruns must be labelled as attempts, not
-misrepresented as distinct run IDs. No remote success is claimed by this scaffold.
+Four consecutive successful hosted runs were captured on 2026-09-19. All are
+distinct run IDs, attempt 1; no failed or cancelled hosted runs preceded them.
+Each built all seven projects with zero warnings/errors and passed exactly
+16 framework + 15 Screenplay + 4 BDD + 1 native tests, with no skips or remaining
+SUT process. This exceeds the three-green-run acceptance criterion.
+
+| Run | Event | Checked-out revision | Job seconds | BDD TRX seconds | Native TRX seconds |
+|---|---|---|---:|---:|---:|
+| [35464147718](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464147718) | push | `d8ce041` | 126 | 11.9530 | 7.3529 |
+| [35464160765](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464160765) | pull_request | `71cc15e` | 135 | 9.3154 | 6.8066 |
+| [35464309574](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464309574) | push | `accd534` | 125 | 12.0170 | 7.3722 |
+| [35464311504](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35464311504) | pull_request | `dae47d7` | 120 | 10.6241 | 7.1146 |
+
+Pull-request runs test GitHub's temporary merge revisions; the corresponding
+source heads are `d8ce041` and `accd534`. The second head changes documentation
+only. Full SHAs, job timestamps, desktop metadata, suite counters/durations and
+SHA-256 hashes of downloaded TRX reports are preserved in the
+[captured evidence](ci-evidence/2026-09-19-tb04.json). Durations use job timestamps
+and TRX start/finish intervals respectively; these are not performance benchmarks.
+
+All four runners reported OS build `10.0.26100.0`, image `20260907.229.1`, session 2,
+`UserInteractive: true` and a 1024x768 primary screen. Artifacts and job logs were
+downloaded and inspected before recording this summary. The logs end with:
+
+```text
+PASS: 36 tests, four TRX reports, no remaining SUT process.
+```
+
+The local full gate also passed 36/36 after the lookup correction (BDD test-run
+time 1.7291 minutes; native 18.2569 seconds). An earlier zero-match BDD filter was
+rejected by the count guard and corrected before publication. Earlier local
+desktop stalls were diagnosed and their owned SUT processes stopped; none are
+represented as passes. Hosted acceptance currently concerns this PR branch and
+its merge previews; a default-branch run will follow the user's merge.

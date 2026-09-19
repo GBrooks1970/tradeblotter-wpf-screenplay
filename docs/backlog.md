@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 4 — TB-03 order-placement BDD delivered
+**Version:** 5 — TB-04 Windows CI verified
 **Last Updated:** 2026-09-19
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -30,34 +30,7 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 
 ### HIGH Priority (Score: 20–30)
 
-#### Risk #4: Zero-Cost Headless GitHub Actions Windows CI Pipeline — Score: 22
-
-**Priority Score:** Security Impact (5) + Breakage Probability (9) + Maintenance Burden (8) = **22 points**  
-**Impact:** Continuous integration proving automated verification runs on standard cloud runners without paid licenses.  
-**Effort:** 4–6 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** CI/CD Infrastructure (`.github/workflows/ci.yml`)  
-
-**Problem:**
-Desktop automation frequently fails in cloud CI environments due to missing interactive desktop sessions, display resolution constraints, or dependency on commercial licenses.
-
-**Impact Analysis:**
-- **Security (5/10):** CI workflows must use principle of least privilege (`contents: read`).
-- **Breakage (9/10):** Desktop automation must run reliably in CI without headless UI rendering crashes or timeout deadlocks.
-- **Maintenance (8/10):** Standardized GitHub Actions workflow ensures zero ongoing license costs.
-
-**Refactor Strategy:**
-1. Author `.github/workflows/ci.yml` targeting `windows-latest`.
-2. Configure workflow steps: .NET 9 SDK setup, dependency restore, SUT build, and test execution.
-3. Configure screen resolution / virtual desktop settings if needed for FlaUI interaction.
-4. Publish test results as NUnit / TRX test artifacts.
-
-**Success Criteria:**
-- [ ] `.github/workflows/ci.yml` authored and committed.
-- [ ] Workflow executes `dotnet test` with FlaUI.UIA3 driver successfully on `windows-latest`.
-- [ ] Minimum 3 consecutive green CI runs recorded.
-
----
+No open HIGH-priority risks.
 
 ### MEDIUM Priority (Score: 10–19)
 
@@ -169,6 +142,37 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 
 ### Resolved Risks
 
+#### Risk #4: Zero-Cost Headless GitHub Actions Windows CI Pipeline — Score: 22
+
+**Priority Score:** Security Impact (5) + Breakage Probability (9) + Maintenance Burden (8) = **22 points**
+**Impact:** Continuous integration proving automated verification runs on standard cloud runners without paid licenses.
+**Effort:** 4–6 hrs
+**Status:** COMPLETE
+**Affected Stacks:** CI/CD Infrastructure (`.github/workflows/ci.yml`)
+
+**Problem:**
+Desktop automation frequently fails in cloud CI environments due to missing interactive desktop sessions, display resolution constraints, or dependency on commercial licenses.
+
+**Impact Analysis:**
+- **Security (5/10):** CI workflows must use principle of least privilege (`contents: read`).
+- **Breakage (9/10):** Desktop automation must run reliably in CI without headless UI rendering crashes or timeout deadlocks.
+- **Maintenance (8/10):** Standardized GitHub Actions workflow ensures zero ongoing license costs.
+
+**Refactor Strategy:**
+1. Author `.github/workflows/ci.yml` targeting `windows-latest`.
+2. Configure workflow steps: .NET 9 SDK setup, dependency restore, SUT build, and test execution.
+3. Configure screen resolution / virtual desktop settings if needed for FlaUI interaction.
+4. Publish test results as NUnit / TRX test artifacts.
+
+**Success Criteria:**
+- [x] `.github/workflows/ci.yml` authored and committed.
+- [x] Workflow executes `dotnet test` with FlaUI.UIA3 driver successfully on `windows-latest`.
+- [x] Minimum 3 consecutive green CI runs recorded.
+
+**Resolution (TB-04):** The Windows-hosted workflow restores/builds all seven projects and verifies 36 tests (16 framework, 15 Screenplay, 4 real-WPF BDD, 1 native smoke), retaining TRX and desktop diagnostics. Consecutive successful hosted executions are recorded in [Windows CI acceptance evidence](windows-ci.md#acceptance-evidence). The standard runner supplies a desktop session; no custom virtual display, paid driver licence or self-hosted runner is used.
+
+---
+
 #### Risk #3: Order Entry & Blotter Verification BDD Feature Suite — Score: 23
 
 **Priority Score:** Security Impact (6) + Breakage Probability (9) + Maintenance Burden (8) = **23 points**
@@ -277,8 +281,8 @@ Without a robust driver abstraction layer, test step definitions directly couple
 
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
-| HIGH (20–30) | 1 | 4–6 hrs | 1 READY TO START |
+| HIGH (20–30) | 0 | 0 hrs | — |
 | MEDIUM (10–19) | 4 | 20–27 hrs | 4 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **5** | **24–33 hrs** | 5 READY TO START |
-| Resolved | 4 | Actual TB-01/TB-02/TB-03 effort not measured | 4 COMPLETE |
+| **Total Outstanding** | **4** | **20–27 hrs** | 4 READY TO START |
+| Resolved | 5 | Actual TB-01–TB-04 effort not measured | 5 COMPLETE |
