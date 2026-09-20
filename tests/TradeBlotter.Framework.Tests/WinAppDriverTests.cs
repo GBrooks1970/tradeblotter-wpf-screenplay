@@ -45,6 +45,20 @@ public sealed class WinAppDriverTests
     }
 
     [Test]
+    public void ExistingApplicationIsNeverAdoptedOrClosed()
+    {
+        using var current = System.Diagnostics.Process.GetCurrentProcess();
+        var driver = new WinAppDriverAdapter();
+        Assert.Throws<InvalidOperationException>(() => driver.Launch(Environment.ProcessPath!));
+        driver.Dispose();
+        Assert.Multiple(() =>
+        {
+            Assert.That(driver.ProcessId, Is.Null);
+            Assert.That(current.HasExited, Is.False);
+        });
+    }
+
+    [Test]
     public void DisposedAdapterRejectsLaunchBeforeTouchingTheFileSystem()
     {
         var driver = new WinAppDriverAdapter();

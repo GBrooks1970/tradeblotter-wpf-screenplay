@@ -80,8 +80,8 @@ Each BDD invocation produces a new ignored `TestResults/<driver>/<run-id>/`
 directory. Exactly ten discovered, executed and passed scenarios are required;
 skips or missing reports fail the gate. CI retains TRX and server logs for seven
 days, including per-session UI trees and screenshots captured before teardown.
-The default FlaUI gate also executes twelve non-UI WinAppDriver endpoint
-and lifecycle cases, bringing its total to 73 tests.
+The default FlaUI gate also executes thirteen non-UI WinAppDriver endpoint
+and lifecycle cases, bringing its total to 74 tests.
 
 Hosted WinAppDriver acceptance is pending. Local Developer Mode was unavailable;
 local validation covers compilation, endpoint/lifecycle tests and FlaUI regression.

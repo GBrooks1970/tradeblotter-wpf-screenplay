@@ -21,7 +21,7 @@ The application and probe builds do not run desktop automation.
 
 Run `./scripts/verify-ci.ps1` from PowerShell 7 with an available Windows desktop.
 This includes the six non-UI gates above, builds all eight projects and executes
-28 framework tests, 34 Screenplay tests, 10 BDD scenarios and the explicit native
+29 framework tests, 34 Screenplay tests, 10 BDD scenarios and the explicit native
 smoke test sequentially. It requires exact executed/passed counts, writes four
 TRX reports and rejects remaining SUT processes. Update its expected counts when
 adding tests. The workflow runs this gate on pushes and pull requests; see

@@ -57,7 +57,7 @@ See [Screenplay core and actor roles](docs/screenplay-core.md) for TB-02 usage.
 See [order-placement BDD](docs/order-placement-bdd.md) for the four real-desktop scenarios and run command.
 
 Run `./scripts/verify-ci.ps1` in PowerShell 7 on a Windows desktop to reproduce
-the CI gate: eight builds and 73 tests with TRX output and exact-count checks.
+the CI gate: eight builds and 74 tests with TRX output and exact-count checks.
 
 See [order-cancellation BDD](docs/order-cancellation-bdd.md) for TB-05 selection safeguards and state-transition coverage.
 

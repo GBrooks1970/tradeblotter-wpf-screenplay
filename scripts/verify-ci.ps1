@@ -42,7 +42,7 @@ try {
 
     $env:TRADEBLOTTER_SUT = Join-Path $repoPath 'src/TradeBlotter.Sut/bin/Release/net9.0-windows/TradeBlotter.Sut.exe'
     $suites = @(
-        @{ Name = 'framework'; Project = $projects[4]; Filter = 'FullyQualifiedName~DriverTests'; Count = 28 },
+        @{ Name = 'framework'; Project = $projects[4]; Filter = 'FullyQualifiedName~DriverTests'; Count = 29 },
         @{ Name = 'screenplay'; Project = $projects[5]; Filter = 'FullyQualifiedName~ScreenplayTests'; Count = 34 },
         @{ Name = 'bdd'; Project = $projects[6]; Filter = 'FullyQualifiedName~TradeBlotter.Specs.Features'; Count = 10 },
         @{ Name = 'native'; Project = $projects[4]; Filter = 'FullyQualifiedName~DesktopSmokeTests'; Count = 1 }
@@ -60,7 +60,7 @@ try {
     }
     $remaining = @(Get-Process -Name TradeBlotter.Sut -ErrorAction SilentlyContinue)
     if ($remaining.Count -ne 0) { throw "SUT processes remain after tests: $($remaining.Id -join ', ')" }
-    Write-Host 'PASS: 73 tests, four TRX reports, no remaining SUT process.'
+    Write-Host 'PASS: 74 tests, four TRX reports, no remaining SUT process.'
 }
 finally {
     Pop-Location

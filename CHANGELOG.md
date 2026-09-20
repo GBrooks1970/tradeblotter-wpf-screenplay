@@ -9,7 +9,7 @@ been published in this record.
 
 - TB-07: optional Appium-backed WinAppDriver adapter, owned server lifecycle,
   driver selection and a separate unchanged-BDD parity CI job (acceptance pending).
-  Twelve endpoint/lifecycle cases extend the default gate to 73 tests.
+  Thirteen endpoint/lifecycle cases extend the default gate to 74 tests.
 
 - TB-06: symbol-specific ticker price questions, bounded Eventually observation
   polling, two repeating-cycle desktop scenarios and an expanded 61-test gate.

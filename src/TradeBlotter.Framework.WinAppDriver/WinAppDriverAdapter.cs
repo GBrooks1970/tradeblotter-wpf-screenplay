@@ -48,8 +48,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
         }
         try
         {
-            var options = new AppiumOptions { PlatformName = "Windows", AutomationName = "Windows" };
-            options.AddAdditionalAppiumOption("app", fullPath);
+            var options = new AppiumOptions { PlatformName = "Windows", AutomationName = "Windows", App = fullPath };
             options.AddAdditionalAppiumOption("appArguments", arguments);
             options.AddAdditionalAppiumOption("wadUrl", wad.AbsoluteUri.TrimEnd('/'));
             options.AddAdditionalAppiumOption("newCommandTimeout", 60);
