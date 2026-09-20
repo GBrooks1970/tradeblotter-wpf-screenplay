@@ -265,7 +265,18 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
             RequireEnabled();
             LiveElement.Click();
-            WaitFor(() => owner.FindWithin(LiveElement, Locator.Name(text)).FirstOrDefault(), $"option {text}").Click();
+            var items = WaitFor(() =>
+            {
+                var found = owner.FindWithin(LiveElement, Locator.XPath("./ListItem"));
+                return found.Count == 0 ? null : found;
+            }, "expanded combo-box items");
+            var index = items.ToList().FindIndex(item => item.GetAttribute("Name") == text);
+            if (index < 0) throw new InvalidOperationException($"Combo-box option '{text}' was not found.");
+            var target = items[index].GetAttribute("RuntimeId");
+            // WPF logical ListItem peers may acknowledge Click without selecting.
+            // Navigate the actual option order and confirm the selection pattern.
+            LiveElement.SendKeys(Keys.Home + string.Concat(Enumerable.Repeat(Keys.ArrowDown, index)) + Keys.Enter);
+            WaitFor(() => LiveElement.GetAttribute("Selection") == target ? LiveElement : null, $"selected option {text}");
         }
         public IAutomationElement Find(Locator locator) => owner.Wrap(WaitFor(
             () => owner.FindWithin(LiveElement, locator).FirstOrDefault(), $"element {locator}"));
