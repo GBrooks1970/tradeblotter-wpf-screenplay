@@ -49,6 +49,17 @@ with a bounded forced exit fallback. Element wrappers reject use after their
 session closes. Disabled elements reject interactions. Scenario teardown checks
 that the owned SUT exited. Window and element lookup poll within bounded waits.
 
+The adapter checks the HWND's owning process before temporarily raising the SUT
+above other windows. This is necessary for native coordinate input: the hosted
+runner console can obscure a window that WinAppDriver reports as focused.
+Cleanup preserves the window's previous topmost setting if the window survives.
+All element interactions still travel through Appium and WinAppDriver.
+
+Element-relative XPath is anchored to the element's native RuntimeId in the
+session tree. Passing the shared `./*` expressions directly to WinAppDriver's
+element endpoint returned no blotter rows, despite successful grid discovery.
+The translation preserves the caller's scope without changing the shared queries.
+
 `TRADEBLOTTER_DRIVER` can also select the fixture for direct `dotnet test` runs;
 the script sets and restores it automatically. Unknown values fail immediately.
 Direct WinAppDriver runs require both servers to be provisioned separately.
@@ -68,8 +79,15 @@ zero vulnerabilities on 2026-09-20. The proxy only listens on loopback.
 Each BDD invocation produces a new ignored `TestResults/<driver>/<run-id>/`
 directory. Exactly ten discovered, executed and passed scenarios are required;
 skips or missing reports fail the gate. CI retains TRX and server logs for seven
-days. The default FlaUI gate also executes twelve non-UI WinAppDriver endpoint
+days, including per-session UI trees and screenshots captured before teardown.
+The default FlaUI gate also executes twelve non-UI WinAppDriver endpoint
 and lifecycle cases, bringing its total to 73 tests.
 
 Hosted WinAppDriver acceptance is pending. Local Developer Mode was unavailable;
 local validation covers compilation, endpoint/lifecycle tests and FlaUI regression.
+
+The initial hosted runs exposed relative XPath behaviour and console occlusion.
+[Run 35526425875](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35526425875)
+passed the first native scenario but failed the other nine; its screenshots
+distinguished console occlusion from an element-location or assertion error.
+These failed runs are diagnostic evidence, not acceptance evidence.

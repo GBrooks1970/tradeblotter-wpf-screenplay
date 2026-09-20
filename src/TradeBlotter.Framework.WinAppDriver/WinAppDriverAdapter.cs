@@ -169,7 +169,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             {
                 Directory.CreateDirectory(diagnostics);
                 var prefix = Path.Combine(diagnostics, $"sut-{ownedProcess?.Id}-{Guid.NewGuid():N}");
-                File.WriteAllText(prefix + ".xml", ownedSession.PageSource);
+                File.WriteAllText(prefix + ".xml", ownedSession.PageSource, System.Text.Encoding.Unicode);
                 ownedSession.GetScreenshot().SaveAsFile(prefix + ".png");
             }
             catch (Exception error) { Console.Error.WriteLine($"Desktop diagnostics unavailable: {error.Message}"); }
@@ -221,6 +221,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
         private void RequireEnabled()
         {
             if (!IsEnabled) throw new InvalidOperationException("Cannot interact with a disabled element.");
+            owner.raisedWindow!.EnsureVisible();
         }
         public void Click() { RequireEnabled(); LiveElement.Click(); }
         public void SelectItem() { RequireEnabled(); LiveElement.Click(); }

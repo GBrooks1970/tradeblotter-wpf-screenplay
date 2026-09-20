@@ -18,8 +18,20 @@ internal sealed class OwnedWindow : IDisposable
         GetWindowThreadProcessId(handle, out var actualProcess);
         if (actualProcess != this.processId) throw new InvalidOperationException("Window is not owned by the launched SUT.");
         wasTopmost = (GetWindowLong(handle, -20) & 0x00000008) != 0;
-        if (!SetWindowPos(handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040))
+        EnsureVisible();
+    }
+
+    public void EnsureVisible()
+    {
+        GetWindowThreadProcessId(handle, out var actualProcess);
+        if (actualProcess != processId) throw new InvalidOperationException("Owned SUT window is no longer available.");
+        // WPF/WinAppDriver may change z-order after the initial HWND attachment.
+        // Reassert visibility immediately before input without activating a disabled
+        // owner window over its modal dialog.
+        if (!SetWindowPos(handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010 | 0x0040))
             throw new Win32Exception(Marshal.GetLastWin32Error(), "Cannot raise the owned SUT window.");
+        if ((GetWindowLong(handle, -20) & 0x00000008) == 0)
+            throw new InvalidOperationException("Owned SUT window did not become topmost.");
     }
 
     public void Dispose()
