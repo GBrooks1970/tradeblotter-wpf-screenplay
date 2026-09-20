@@ -39,7 +39,7 @@ No open HIGH-priority risks.
 **Priority Score:** Security Impact (4) + Breakage Probability (6) + Maintenance Burden (6) = **16 points**  
 **Impact:** Verification of asynchronous background updates without UI thread blocking.  
 **Effort:** 4–5 hrs  
-**Status:** READY TO START  
+**Status:** IN PROGRESS
 **Affected Stacks:** Screenplay & Specs  
 
 **Problem:**
@@ -284,7 +284,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 3 | 16–21 hrs | 3 READY TO START |
+| MEDIUM (10–19) | 3 | 16–21 hrs | 1 IN PROGRESS, 2 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **3** | **16–21 hrs** | 3 READY TO START |
+| **Total Outstanding** | **3** | **16–21 hrs** | 1 IN PROGRESS, 2 READY TO START |
 | Resolved | 6 | Actual TB-01–TB-05 effort not measured | 6 COMPLETE |

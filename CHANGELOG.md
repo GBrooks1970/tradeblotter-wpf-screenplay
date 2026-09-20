@@ -7,6 +7,9 @@ been published in this record.
 
 ### Added
 
+- TB-06: symbol-specific ticker price questions, bounded Eventually observation
+  polling, two repeating-cycle desktop scenarios and an expanded 61-test gate.
+
 - TB-05: four cancellation/state BDD examples, verified row selection, guarded
   CancelOrder/SelectedOrder tasks and expanded 45-test CI gate.
 
@@ -31,5 +34,5 @@ been published in this record.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-Ticker BDD coverage and additional driver adapters remain planned in
+Additional driver adapters remain planned in
 [the backlog](docs/backlog.md).
