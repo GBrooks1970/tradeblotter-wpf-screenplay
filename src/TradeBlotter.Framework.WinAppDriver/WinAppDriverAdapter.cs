@@ -45,6 +45,8 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
         {
             process = Process.Start(new ProcessStartInfo(Path.GetFullPath(executablePath), arguments) { UseShellExecute = false })
                 ?? throw new InvalidOperationException("Failed to launch application.");
+            if (!process.WaitForInputIdle(10000))
+                throw new TimeoutException("SUT did not finish initialising its input loop.");
             var handle = WaitFor(() =>
             {
                 process.Refresh();

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace TradeBlotter.Framework.WinAppDriver;
@@ -28,10 +29,15 @@ internal sealed class OwnedWindow : IDisposable
         // WPF/WinAppDriver may change z-order after the initial HWND attachment.
         // Reassert visibility immediately before input without activating a disabled
         // owner window over its modal dialog.
-        if (!SetWindowPos(handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010 | 0x0040))
-            throw new Win32Exception(Marshal.GetLastWin32Error(), "Cannot raise the owned SUT window.");
-        if ((GetWindowLong(handle, -20) & 0x00000008) == 0)
-            throw new InvalidOperationException("Owned SUT window did not become topmost.");
+        var timer = Stopwatch.StartNew();
+        do
+        {
+            if (!SetWindowPos(handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010 | 0x0040))
+                throw new Win32Exception(Marshal.GetLastWin32Error(), "Cannot raise the owned SUT window.");
+            if ((GetWindowLong(handle, -20) & 0x00000008) != 0) return;
+            Task.Delay(100).GetAwaiter().GetResult();
+        } while (timer.Elapsed < TimeSpan.FromSeconds(5));
+        throw new TimeoutException("Owned SUT window did not become topmost within five seconds.");
     }
 
     public void Dispose()
