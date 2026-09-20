@@ -98,15 +98,31 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     }
 
     private IAutomationElement Wrap(IWebElement element) => new Element(this, Live, element);
+    private IReadOnlyList<IWebElement> FindWithin(IWebElement root, Locator locator)
+    {
+        ArgumentNullException.ThrowIfNull(locator);
+        // WinAppDriver does not preserve the UIA element-relative XPath context.
+        // Anchor to the current element's native RuntimeId in the session tree.
+        if (locator.Strategy == LocatorStrategy.XPath && locator.Value.StartsWith("./", StringComparison.Ordinal))
+        {
+            var runtimeId = root.GetAttribute("RuntimeId");
+            if (string.IsNullOrEmpty(runtimeId) || runtimeId.Any(c => !char.IsAsciiDigit(c) && c != '.' && c != '-'))
+                throw new InvalidOperationException("WinAppDriver returned an invalid element RuntimeId.");
+            var found = Live.FindElements(WebBy.XPath($"//*[@RuntimeId='{runtimeId}']{locator.Value[1..]}"));
+            if (found.Count == 0) Console.WriteLine($"Empty scoped XPath: {locator.Value}\n{Live.PageSource}");
+            return found;
+        }
+        return root.FindElements(Translate(locator));
+    }
     public IAutomationElement Find(Locator locator)
     {
         _ = Live;
-        return Wrap(WaitFor(() => window!.FindElements(Translate(locator)).FirstOrDefault(), $"element {locator}"));
+        return Wrap(WaitFor(() => FindWithin(window!, locator).FirstOrDefault(), $"element {locator}"));
     }
     public IReadOnlyList<IAutomationElement> FindAll(Locator locator)
     {
         _ = Live;
-        return window!.FindElements(Translate(locator)).Select(Wrap).ToArray();
+        return FindWithin(window!, locator).Select(Wrap).ToArray();
     }
     public void Click(Locator locator) => Find(locator).Click();
     public void Type(Locator locator, string text) => Find(locator).Type(text);
@@ -205,7 +221,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             WaitFor(() => LiveElement.FindElements(WebBy.Name(text)).FirstOrDefault(), $"option {text}").Click();
         }
         public IAutomationElement Find(Locator locator) => owner.Wrap(WaitFor(
-            () => LiveElement.FindElements(Translate(locator)).FirstOrDefault(), $"element {locator}"));
-        public IReadOnlyList<IAutomationElement> FindAll(Locator locator) => LiveElement.FindElements(Translate(locator)).Select(owner.Wrap).ToArray();
+            () => owner.FindWithin(LiveElement, locator).FirstOrDefault(), $"element {locator}"));
+        public IReadOnlyList<IAutomationElement> FindAll(Locator locator) => owner.FindWithin(LiveElement, locator).Select(owner.Wrap).ToArray();
     }
 }
