@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 6 — TB-05 cancellation verification delivered
+**Version:** 7 — TB-06 ticker verification delivered
 **Last Updated:** 2026-09-20
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -33,33 +33,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 No open HIGH-priority risks.
 
 ### MEDIUM Priority (Score: 10–19)
-
-#### Risk #6: Real-time Asynchronous Pricing Ticker Feed Verification — Score: 16
-
-**Priority Score:** Security Impact (4) + Breakage Probability (6) + Maintenance Burden (6) = **16 points**  
-**Impact:** Verification of asynchronous background updates without UI thread blocking.  
-**Effort:** 4–5 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** Screenplay & Specs  
-
-**Problem:**
-Financial blotters feature real-time live pricing feeds. Automation must verify that asynchronous ticks update UI components without causing COM proxy deadlocks or race conditions.
-
-**Impact Analysis:**
-- **Security (4/10):** Stale price display risks mispriced order execution.
-- **Breakage (6/10):** Background DispatcherTimer updates can cause intermittent test failures if assertions don't poll reactive state.
-- **Maintenance (6/10):** Screenplay `Eventually` waiting pattern handles async updates cleanly.
-
-**Refactor Strategy:**
-1. Author `PriceTicker.feature` verifying live ticker feed changes.
-2. Implement `TickerPrice` Question with polling tolerance.
-3. Assert that ticker values fluctuate deterministically.
-
-**Success Criteria:**
-- [ ] Gherkin scenarios verify dynamic ticker updates without arbitrary `Thread.Sleep`.
-- [ ] Verified green locally and in CI.
-
----
 
 #### Risk #7: Microsoft WinAppDriver Adapter & Appium Protocol Parity — Score: 14
 
@@ -114,6 +87,35 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 ---
 
 ### Resolved Risks
+
+#### Risk #6: Real-time Asynchronous Pricing Ticker Feed Verification — Score: 16
+
+**Priority Score:** Security Impact (4) + Breakage Probability (6) + Maintenance Burden (6) = **16 points**
+**Impact:** Verification of asynchronous background updates without UI thread blocking.
+**Effort:** 4–5 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Screenplay & Specs
+
+**Problem:**
+Financial blotters feature real-time live pricing feeds. Automation must verify that asynchronous ticks update UI components without causing COM proxy deadlocks or race conditions.
+
+**Impact Analysis:**
+- **Security (4/10):** Stale price display risks mispriced order execution.
+- **Breakage (6/10):** Background DispatcherTimer updates can cause intermittent test failures if assertions don't poll reactive state.
+- **Maintenance (6/10):** Screenplay `Eventually` waiting pattern handles async updates cleanly.
+
+**Refactor Strategy:**
+1. Author `PriceTicker.feature` verifying live ticker feed changes.
+2. Implement `TickerPrice` Question with polling tolerance.
+3. Assert that ticker values fluctuate deterministically.
+
+**Success Criteria:**
+- [x] Gherkin scenarios verify dynamic ticker updates without arbitrary `Thread.Sleep`.
+- [x] Verified green locally and in CI.
+
+**Resolution (TB-06):** Two real-WPF examples observe repeating EUR/USD and GBP/USD price cycles through `TickerPrice` and bounded `Eventually<T>` polling. They preserve blotter data and verify continued selection. All 61 tests passed locally and in push/PR hosted runs 35480734919 and 35480747091; see [ticker verification](price-ticker-bdd.md).
+
+---
 
 #### Risk #5: Order Cancellation & State Transition Verification — Score: 18
 
@@ -284,7 +286,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 3 | 16–21 hrs | 3 READY TO START |
+| MEDIUM (10–19) | 2 | 12–16 hrs | 2 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **3** | **16–21 hrs** | 3 READY TO START |
-| Resolved | 6 | Actual TB-01–TB-05 effort not measured | 6 COMPLETE |
+| **Total Outstanding** | **2** | **12–16 hrs** | 2 READY TO START |
+| Resolved | 7 | Actual TB-01–TB-06 effort not measured | 7 COMPLETE |

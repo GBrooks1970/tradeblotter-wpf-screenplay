@@ -6,7 +6,7 @@ using TradeBlotter.Screenplay.Tasks;
 
 namespace TradeBlotter.Screenplay.Tests;
 
-public class ScreenplayTests
+public partial class ScreenplayTests
 {
     private static readonly By Field = By.AutomationId("quantity");
 

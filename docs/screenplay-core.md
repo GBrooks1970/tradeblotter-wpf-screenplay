@@ -46,7 +46,8 @@ The fixture owns driver disposal; actors and abilities do not dispose it. Sharin
 a driver means sharing its active window and application lifetime. Execute actors
 sequentially. An auditor inspects the current scope selected by the trader or
 fixture. Lookup waits and stale-element behaviour come from the driver; the core
-does not add retries or promise atomic operations.
+does not retry failed interactions or promise atomic operations. TB-06 adds the
+explicit `Eventually<T>` question decorator for condition-driven observation polling.
 
 ## Delivered scope and validation
 
@@ -54,8 +55,7 @@ Foundational tasks are `LaunchApplication`, `ClickElement`, `EnterText`,
 `SwitchWindow` and `CloseApplication`. Questions are `TextOf` and `CountOf`.
 TB-03 now adds placement tasks and blotter questions; see
 [order-placement BDD](order-placement-bdd.md). TB-05 adds `SelectedOrder` and
-`CancelOrder`; see [cancellation BDD](order-cancellation-bdd.md). Ticker verification
-remains TB-06. These extensions were not delivered by the TB-02 core acceptance item.
+`CancelOrder`; see [cancellation BDD](order-cancellation-bdd.md). TB-06 adds `TickerPrice` and `Eventually<T>`; see [ticker BDD](price-ticker-bdd.md). These extensions were not delivered by the TB-02 core acceptance item.
 The backlog's broader Risk #2 refactor roadmap is retained with that allocation.
 
 The original fourteen in-memory NUnit tests cover dispatch, fluent return, failures, ability

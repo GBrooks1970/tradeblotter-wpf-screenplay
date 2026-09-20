@@ -46,9 +46,9 @@ Run from the repository root on a Windows desktop:
 dotnet test tests/TradeBlotter.Specs/TradeBlotter.Specs.csproj --configuration Release --filter FullyQualifiedName~OrderCancellation --logger "console;verbosity=normal"
 ```
 
-The complete gate is `./scripts/verify-ci.ps1` in PowerShell 7. It now expects
+The complete gate is `./scripts/verify-ci.ps1` in PowerShell 7. The TB-05 baseline expected
 16 framework tests, 20 Screenplay tests, 8 desktop BDD examples and 1 native smoke
-test: **45 tests**. The Screenplay tests include confirmed-selection sequencing,
+test: **45 tests**. See the project contract for current totals. The Screenplay tests include confirmed-selection sequencing,
 refusal to cancel after unconfirmed selection, invalid IDs and auditor denial.
 Framework tests cover selection-state forwarding through the public element
 contract. Desktop tests remain sequential.
@@ -58,7 +58,7 @@ business logic. FILLED rejection means the order remains unchanged, not that an
 error dialog appears. PARTIAL cancellation preserves existing fills. Coverage
 concerns four realised seeded rows and the toolbar path, not off-screen
 virtualisation, direct cell edits, application authorisation or a production
-execution engine. Ticker verification remains TB-06.
+execution engine. TB-06 supplies [ticker verification](price-ticker-bdd.md).
 
 See the [project contract](project-contract.md) for gates and the
 [SUT learning guide](../src/TradeBlotter.Sut/README.md) for application behaviour.
