@@ -42,6 +42,9 @@ public class DriverTests
             Assert.That(found.Name, Is.EqualTo("Quantity"));
             Assert.That(found.Text, Is.EqualTo("10"));
             Assert.That(found.IsEnabled, Is.True);
+            Assert.That(found.IsSelected, Is.False);
+            found.SelectItem();
+            Assert.That(found.IsSelected, Is.True);
             Assert.That(input.Clicks, Is.EqualTo(1));
             Assert.That(driver.FindAll(locator), Has.Count.EqualTo(1));
             Assert.That(driver.ProcessId, Is.EqualTo(123));
@@ -241,6 +244,8 @@ public class DriverTests
         public string Name => name;
         public string Text { get; private set; } = "";
         public bool IsEnabled => true;
+        public bool IsSelected { get; private set; }
+        public void SelectItem() => IsSelected = true;
         public int Clicks { get; private set; }
         public int Lookups { get; private set; }
         public bool Focused { get; private set; }

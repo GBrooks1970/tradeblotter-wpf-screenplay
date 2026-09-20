@@ -118,6 +118,8 @@ public sealed class FlaUiDriverAdapter : IWindowsAutomationDriver
         public string Name => Live.Name;
         public string Text => Live.Text;
         public bool IsEnabled => Live.IsEnabled;
+        public bool IsSelected => Live.IsSelected;
+        public void SelectItem() => Live.SelectItem();
         public void Click() => Live.Click();
         public void Type(string text)
         {

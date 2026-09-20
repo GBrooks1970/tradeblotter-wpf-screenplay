@@ -9,6 +9,7 @@ public interface IDesktopObservation
     string Name { get; }
     string Text { get; }
     bool IsEnabled { get; }
+    bool IsSelected { get; }
     IDesktopObservation Find(By locator);
     IReadOnlyList<IDesktopObservation> FindAll(By locator);
 }
@@ -36,6 +37,7 @@ public sealed class BrowseTheDesktop : IAbility
     public void Type(By locator, string text) { RequireInteraction(); driver.Type(locator, text); }
     public void SwitchToWindow(By locator) { RequireInteraction(); driver.SwitchToWindow(locator); }
     public void Select(By locator, string text) { RequireInteraction(); driver.Select(locator, text); }
+    public void SelectItem(By locator) { RequireInteraction(); driver.Find(locator).SelectItem(); }
     public void Close() { RequireInteraction(); driver.Close(); }
 
     private void RequireInteraction()
@@ -49,6 +51,7 @@ public sealed class BrowseTheDesktop : IAbility
         public string Name => element.Name;
         public string Text => element.Text;
         public bool IsEnabled => element.IsEnabled;
+        public bool IsSelected => element.IsSelected;
         public IDesktopObservation Find(By locator) => new Observation(element.Find(locator));
         public IReadOnlyList<IDesktopObservation> FindAll(By locator) => element.FindAll(locator).Select(e => (IDesktopObservation)new Observation(e)).ToArray();
     }

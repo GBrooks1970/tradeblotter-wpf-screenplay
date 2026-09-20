@@ -31,7 +31,7 @@ Earlier successful actions are not rolled back. `AsksFor` returns the typed answ
 
 `TommyTrader` receives `BrowseTheDesktop.Using(driver)`. `AdamAuditor` receives
 `BrowseTheDesktop.Inspecting(driver)` and rejects all task dispatch. The inspection
-ability also guards launch, click, type, window switching and close, so directly
+ability also guards launch, click, type, option/row selection, window switching and close, so directly
 invoking a task or attempting mutation from a question cannot bypass this boundary.
 Window switching is guarded because the driver implementation changes focus.
 
@@ -53,11 +53,12 @@ does not add retries or promise atomic operations.
 Foundational tasks are `LaunchApplication`, `ClickElement`, `EnterText`,
 `SwitchWindow` and `CloseApplication`. Questions are `TextOf` and `CountOf`.
 TB-03 now adds placement tasks and blotter questions; see
-[order-placement BDD](order-placement-bdd.md). Cancellation and ticker behaviour
-remain TB-05 and TB-06. They were not delivered by the TB-02 core acceptance item.
+[order-placement BDD](order-placement-bdd.md). TB-05 adds `SelectedOrder` and
+`CancelOrder`; see [cancellation BDD](order-cancellation-bdd.md). Ticker verification
+remains TB-06. These extensions were not delivered by the TB-02 core acceptance item.
 The backlog's broader Risk #2 refactor roadmap is retained with that allocation.
 
-Fourteen in-memory NUnit tests cover dispatch, fluent return, failures, ability
+The original fourteen in-memory NUnit tests cover dispatch, fluent return, failures, ability
 registration, both actors, nested read wrappers and mutation denial. The mock
 driver validates exact call order and arguments. These tests prove the core API,
 not live trading workflows or native UI behaviour. See the

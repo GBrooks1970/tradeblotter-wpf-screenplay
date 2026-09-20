@@ -21,15 +21,15 @@ The application and probe builds do not run desktop automation.
 
 Run `./scripts/verify-ci.ps1` from PowerShell 7 with an available Windows desktop.
 This includes the six non-UI gates above, builds all seven projects and executes
-16 framework tests, 15 Screenplay tests, 4 BDD scenarios and the explicit native
+16 framework tests, 20 Screenplay tests, 8 BDD scenarios and the explicit native
 smoke test sequentially. It requires exact executed/passed counts, writes four
 TRX reports and rejects remaining SUT processes. Update its expected counts when
 adding tests. The workflow runs this gate on pushes and pull requests; see
 [Windows CI](windows-ci.md) for permissions, timeouts and hosted evidence.
 
-## Order-placement acceptance gate
+## Desktop BDD acceptance gate
 
-TB-03 and changes to placement tasks, driver interactions or the SUT additionally
+Changes to placement/cancellation tasks, driver interactions or the SUT additionally
 require a Windows desktop and this real-application suite:
 
 ```powershell
@@ -37,7 +37,7 @@ dotnet test tests/TradeBlotter.Specs/TradeBlotter.Specs.csproj --configuration R
 ```
 
 The project builds and copies its own SUT. Run desktop suites sequentially. See
-[order-placement BDD](order-placement-bdd.md) for isolation and fixture boundaries.
+[order-placement BDD](order-placement-bdd.md) and [order-cancellation BDD](order-cancellation-bdd.md) for isolation, assertions and fixture boundaries.
 
 ## Native smoke test
 

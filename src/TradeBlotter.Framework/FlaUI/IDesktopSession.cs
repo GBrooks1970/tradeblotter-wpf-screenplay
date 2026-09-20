@@ -16,6 +16,8 @@ internal interface IDesktopElement
     string Name { get; }
     string Text { get; }
     bool IsEnabled { get; }
+    bool IsSelected { get; }
+    void SelectItem();
     void Click();
     void Type(string text);
     void Select(string text);

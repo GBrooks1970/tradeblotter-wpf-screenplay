@@ -7,6 +7,9 @@ been published in this record.
 
 ### Added
 
+- TB-05: four cancellation/state BDD examples, verified row selection, guarded
+  CancelOrder/SelectedOrder tasks and expanded 45-test CI gate.
+
 - TB-04: Windows-hosted CI workflow, a reproducible 36-test gate with hang
   timeouts, exact-count checks, TRX artifacts and desktop diagnostics.
   Modal lookup now scopes AutomationId/name discovery to SUT windows to avoid
@@ -28,5 +31,5 @@ been published in this record.
 - Onboarding README, project contract with explicit build gates, and reusable
   implementation-log template.
 
-Cancellation/ticker BDD coverage and additional driver adapters remain planned in
+Ticker BDD coverage and additional driver adapters remain planned in
 [the backlog](docs/backlog.md).

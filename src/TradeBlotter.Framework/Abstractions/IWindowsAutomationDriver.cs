@@ -6,6 +6,8 @@ public interface IAutomationElement
     string Name { get; }
     string Text { get; }
     bool IsEnabled { get; }
+    bool IsSelected { get; }
+    void SelectItem();
     void Click();
     /// <summary>Replace the existing value; does not append text.</summary>
     void Type(string text);

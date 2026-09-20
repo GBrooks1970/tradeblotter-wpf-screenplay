@@ -8,8 +8,8 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 5 — TB-04 Windows CI verified
-**Last Updated:** 2026-09-19
+**Version:** 6 — TB-05 cancellation verification delivered
+**Last Updated:** 2026-09-20
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
 This backlog tracks the architecture, test automation harness, Screenplay pattern implementation, multi-driver abstraction, and CI delivery for the TradeBlotter.WPF desktop automation project.
@@ -33,33 +33,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 No open HIGH-priority risks.
 
 ### MEDIUM Priority (Score: 10–19)
-
-#### Risk #5: Order Cancellation & State Transition Verification — Score: 18
-
-**Priority Score:** Security Impact (5) + Breakage Probability (7) + Maintenance Burden (6) = **18 points**  
-**Impact:** Verification of trading blotter state lifecycle and order modification rules.  
-**Effort:** 4–6 hrs  
-**Status:** READY TO START  
-**Affected Stacks:** Test Specifications (`TradeBlotter.Specs`)  
-
-**Problem:**
-Orders in `PENDING` state must be cancellable by traders, transitioning to `CANCELLED`, while `FILLED` orders must reject cancellation.
-
-**Impact Analysis:**
-- **Security (5/10):** Unauthorized order cancellations risk trade desk reconciliation discrepancies.
-- **Breakage (7/10):** State machine logic regressions in WPF ViewModel.
-- **Maintenance (6/10):** Clean Gherkin scenarios for state transitions.
-
-**Refactor Strategy:**
-1. Author `OrderCancellation.feature` covering pending cancellation and filled order rejection.
-2. Implement `CancelOrder` task and `SelectedOrder` interaction.
-3. Assert grid cell status updates in real time.
-
-**Success Criteria:**
-- [ ] `OrderCancellation.feature` authored with pending and invalid cancellation scenarios.
-- [ ] Step definitions implemented and green in NUnit.
-
----
 
 #### Risk #6: Real-time Asynchronous Pricing Ticker Feed Verification — Score: 16
 
@@ -141,6 +114,35 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 ---
 
 ### Resolved Risks
+
+#### Risk #5: Order Cancellation & State Transition Verification — Score: 18
+
+**Priority Score:** Security Impact (5) + Breakage Probability (7) + Maintenance Burden (6) = **18 points**
+**Impact:** Verification of trading blotter state lifecycle and order modification rules.
+**Effort:** 4–6 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Test Specifications (`TradeBlotter.Specs`)
+
+**Problem:**
+Orders in `PENDING` state must be cancellable by traders, transitioning to `CANCELLED`, while `FILLED` orders must reject cancellation.
+
+**Impact Analysis:**
+- **Security (5/10):** Unauthorized order cancellations risk trade desk reconciliation discrepancies.
+- **Breakage (7/10):** State machine logic regressions in WPF ViewModel.
+- **Maintenance (6/10):** Clean Gherkin scenarios for state transitions.
+
+**Refactor Strategy:**
+1. Author `OrderCancellation.feature` covering pending cancellation and filled order rejection.
+2. Implement `CancelOrder` task and `SelectedOrder` interaction.
+3. Assert grid cell status updates in real time.
+
+**Success Criteria:**
+- [x] `OrderCancellation.feature` authored with pending and invalid cancellation scenarios.
+- [x] Step definitions implemented and green in NUnit.
+
+**Resolution (TB-05):** Four real-WPF BDD examples verify PENDING/PARTIAL cancellation and FILLED/CANCELLED no-op behaviour, including repeated attempts and preservation of every other displayed value. `SelectedOrder` verifies native row selection before `CancelOrder` invokes the toolbar. All 45 tests pass locally; see [cancellation evidence and reproduction](order-cancellation-bdd.md).
+
+---
 
 #### Risk #4: Zero-Cost Headless GitHub Actions Windows CI Pipeline — Score: 22
 
@@ -282,7 +284,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 4 | 20–27 hrs | 4 READY TO START |
+| MEDIUM (10–19) | 3 | 16–21 hrs | 3 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **4** | **20–27 hrs** | 4 READY TO START |
-| Resolved | 5 | Actual TB-01–TB-04 effort not measured | 5 COMPLETE |
+| **Total Outstanding** | **3** | **16–21 hrs** | 3 READY TO START |
+| Resolved | 6 | Actual TB-01–TB-05 effort not measured | 6 COMPLETE |

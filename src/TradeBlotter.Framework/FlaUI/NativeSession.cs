@@ -88,6 +88,12 @@ internal sealed class NativeElement(AutomationElement element) : IDesktopElement
     public string Name => element.Name;
     public string Text => element.Patterns.Value.IsSupported ? element.Patterns.Value.Pattern.Value.Value : element.Name;
     public bool IsEnabled => element.IsEnabled;
+    public bool IsSelected => element.Patterns.SelectionItem.IsSupported && element.Patterns.SelectionItem.Pattern.IsSelected.Value;
+    public void SelectItem()
+    {
+        if (!IsEnabled) throw new InvalidOperationException("Cannot select a disabled element.");
+        element.Patterns.SelectionItem.Pattern.Select();
+    }
     public void Click()
     {
         if (!IsEnabled) throw new InvalidOperationException("Cannot click a disabled element.");
