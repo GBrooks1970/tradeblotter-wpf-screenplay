@@ -16,6 +16,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     private WindowsDriver? session;
     private IWebElement? window;
     private Process? process;
+    private OwnedWindow? raisedWindow;
     private bool disposed;
     public int? ProcessId => process?.Id;
 
@@ -50,6 +51,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
                 if (process.HasExited) throw new InvalidOperationException("Application exited before its window became available.");
                 return process.MainWindowHandle == IntPtr.Zero ? null : process.MainWindowHandle.ToInt64().ToString("x");
             }, "application window", TimeSpan.FromSeconds(15));
+            raisedWindow = new OwnedWindow(process.MainWindowHandle, process.Id);
             var options = new AppiumOptions { PlatformName = "Windows", AutomationName = "Windows" };
             options.AddAdditionalAppiumOption("appTopLevelWindow", handle);
             options.AddAdditionalAppiumOption("wadUrl", wad.AbsoluteUri.TrimEnd('/'));
@@ -158,6 +160,8 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     {
         var ownedSession = session;
         var ownedProcess = process;
+        var ownedWindow = raisedWindow;
+        raisedWindow = null;
         var diagnostics = Environment.GetEnvironmentVariable("TRADEBLOTTER_DIAGNOSTICS_DIRECTORY");
         if (ownedSession is not null && !string.IsNullOrWhiteSpace(diagnostics))
         {
@@ -188,7 +192,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
                     }
                 }
             }
-            finally { ownedProcess?.Dispose(); ownedSession?.Dispose(); }
+            finally { ownedWindow?.Dispose(); ownedProcess?.Dispose(); ownedSession?.Dispose(); }
         }
     }
 
