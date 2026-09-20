@@ -15,6 +15,7 @@ $run = Join-Path $repo "TestResults/$Driver/$([Guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Path $run -Force | Out-Null
 $oldDriver = $env:TRADEBLOTTER_DRIVER
 $oldHome = $env:APPIUM_HOME
+$oldDiagnostics = $env:TRADEBLOTTER_DIAGNOSTICS_DIRECTORY
 $owned = [System.Collections.Generic.List[System.Diagnostics.Process]]::new()
 function Start-Owned([string] $File, [string[]] $Arguments, [string] $Name) {
     $process = Start-Process -FilePath $File -ArgumentList $Arguments -PassThru -WindowStyle Hidden -WorkingDirectory $repo -RedirectStandardOutput "$run/$Name.stdout.log" -RedirectStandardError "$run/$Name.stderr.log"
@@ -35,6 +36,7 @@ function Wait-Server([System.Diagnostics.Process] $Process, [string] $Url) {
 Push-Location $repo
 try {
     $env:TRADEBLOTTER_DRIVER = $Driver
+    $env:TRADEBLOTTER_DIAGNOSTICS_DIRECTORY = Join-Path $run 'desktop'
     if ($Driver -eq 'winappdriver') {
         $wad = Join-Path ${env:ProgramFiles(x86)} 'Windows Application Driver/WinAppDriver.exe'
         if (-not (Test-Path $wad)) { throw 'Install Microsoft WinAppDriver 1.2.1 and enable Windows Developer Mode before running parity.' }
@@ -72,6 +74,7 @@ finally {
     }
     $env:TRADEBLOTTER_DRIVER = $oldDriver
     $env:APPIUM_HOME = $oldHome
+    $env:TRADEBLOTTER_DIAGNOSTICS_DIRECTORY = $oldDiagnostics
     Pop-Location
     if ($cleanupErrors.Count) { throw ($cleanupErrors -join [Environment]::NewLine) }
     Write-Host 'Owned automation servers stopped.'

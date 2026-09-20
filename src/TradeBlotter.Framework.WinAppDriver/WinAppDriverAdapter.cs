@@ -56,6 +56,9 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             options.AddAdditionalAppiumOption("newCommandTimeout", 60);
             session = new WindowsDriver(server, options, TimeSpan.FromSeconds(30));
             session.Manage().Timeouts().ImplicitWait = TimeSpan.Zero;
+            // Attaching by HWND does not guarantee that a newly launched process
+            // owns the foreground after a previous scenario has closed.
+            session.SwitchTo().Window(session.CurrentWindowHandle);
             window = session.FindElement(WebBy.XPath("/*"));
         }
         catch
@@ -109,7 +112,6 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             if (string.IsNullOrEmpty(runtimeId) || runtimeId.Any(c => !char.IsAsciiDigit(c) && c != '.' && c != '-'))
                 throw new InvalidOperationException("WinAppDriver returned an invalid element RuntimeId.");
             var found = Live.FindElements(WebBy.XPath($"//*[@RuntimeId='{runtimeId}']{locator.Value[1..]}"));
-            if (found.Count == 0) Console.WriteLine($"Empty scoped XPath: {locator.Value}\n{Live.PageSource}");
             return found;
         }
         return root.FindElements(Translate(locator));
@@ -156,6 +158,18 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     {
         var ownedSession = session;
         var ownedProcess = process;
+        var diagnostics = Environment.GetEnvironmentVariable("TRADEBLOTTER_DIAGNOSTICS_DIRECTORY");
+        if (ownedSession is not null && !string.IsNullOrWhiteSpace(diagnostics))
+        {
+            try
+            {
+                Directory.CreateDirectory(diagnostics);
+                var prefix = Path.Combine(diagnostics, $"sut-{ownedProcess?.Id}-{Guid.NewGuid():N}");
+                File.WriteAllText(prefix + ".xml", ownedSession.PageSource);
+                ownedSession.GetScreenshot().SaveAsFile(prefix + ".png");
+            }
+            catch (Exception error) { Console.Error.WriteLine($"Desktop diagnostics unavailable: {error.Message}"); }
+        }
         session = null;
         process = null;
         window = null;
