@@ -7,6 +7,10 @@ Screenplay core with trading and read-only auditing actors, and four Reqnroll
 order-placement scenarios. A Windows CI workflow runs the complete verification
 gate; [hosted acceptance evidence](docs/windows-ci.md) tracks TB-04 completion.
 
+Start with the [SUT learning guide](src/TradeBlotter.Sut/README.md) for the
+application's purpose, design, order flow, simulated behaviour and automation
+support, illustrated with Mermaid diagrams and a guided exercise.
+
 ## Prerequisites and build
 
 Use Windows with the .NET 9 SDK. Run these commands from the repository root:
