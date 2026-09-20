@@ -43,17 +43,17 @@ locked local Windows driver in a fresh isolated Appium home, and waits for both
 status endpoints. It always stops its owned process trees, including on failure.
 It never attaches to or kills an existing automation server.
 
-Each scenario launches its own SUT, then attaches Appium using that process's
-native window handle. Teardown closes the session and the owned application,
+Each scenario asks WinAppDriver to launch its SUT using the standard `app`
+capability. The adapter rejects an existing exact-path instance, tracks the newly
+launched process and checks its identity against the session root. Desktop suites
+must run serially; multiple matching processes are an ownership error. Teardown closes the session and the owned application,
 with a bounded forced exit fallback. Element wrappers reject use after their
 session closes. Disabled elements reject interactions. Scenario teardown checks
 that the owned SUT exited. Window and element lookup poll within bounded waits.
 
-The adapter checks the HWND's owning process before temporarily raising the SUT
-above other windows. This is necessary for native coordinate input: the hosted
-runner console can obscure a window that WinAppDriver reports as focused.
-Cleanup preserves the window's previous topmost setting if the window survives.
-All element interactions still travel through Appium and WinAppDriver.
+The earlier HWND-attachment approach left later SUT windows behind the runner
+console despite reported focus. Application creation now belongs to WinAppDriver;
+the adapter does not alter topmost flags or join another application's input queue.
 
 Element-relative XPath is anchored to the element's native RuntimeId in the
 session tree. Passing the shared `./*` expressions directly to WinAppDriver's

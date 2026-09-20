@@ -16,7 +16,6 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     private WindowsDriver? session;
     private IWebElement? window;
     private Process? process;
-    private OwnedWindow? raisedWindow;
     private bool disposed;
     public int? ProcessId => process?.Id;
 
@@ -41,35 +40,55 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
         ArgumentException.ThrowIfNullOrWhiteSpace(executablePath);
         ArgumentNullException.ThrowIfNull(arguments);
         if (!File.Exists(executablePath)) throw new FileNotFoundException("Application executable not found.", executablePath);
+        var fullPath = Path.GetFullPath(executablePath);
+        if (FindApplication(fullPath) is { } existing)
+        {
+            existing.Dispose();
+            throw new InvalidOperationException("Close the existing application before launching an owned session.");
+        }
         try
         {
-            process = Process.Start(new ProcessStartInfo(Path.GetFullPath(executablePath), arguments) { UseShellExecute = false })
-                ?? throw new InvalidOperationException("Failed to launch application.");
-            if (!process.WaitForInputIdle(10000))
-                throw new TimeoutException("SUT did not finish initialising its input loop.");
-            var handle = WaitFor(() =>
-            {
-                process.Refresh();
-                if (process.HasExited) throw new InvalidOperationException("Application exited before its window became available.");
-                return process.MainWindowHandle == IntPtr.Zero ? null : process.MainWindowHandle.ToInt64().ToString("x");
-            }, "application window", TimeSpan.FromSeconds(15));
-            raisedWindow = new OwnedWindow(process.MainWindowHandle, process.Id);
             var options = new AppiumOptions { PlatformName = "Windows", AutomationName = "Windows" };
-            options.AddAdditionalAppiumOption("appTopLevelWindow", handle);
+            options.AddAdditionalAppiumOption("app", fullPath);
+            options.AddAdditionalAppiumOption("appArguments", arguments);
             options.AddAdditionalAppiumOption("wadUrl", wad.AbsoluteUri.TrimEnd('/'));
             options.AddAdditionalAppiumOption("newCommandTimeout", 60);
             session = new WindowsDriver(server, options, TimeSpan.FromSeconds(30));
+            process = FindApplication(fullPath)
+                ?? throw new InvalidOperationException("WinAppDriver did not launch the requested executable.");
             session.Manage().Timeouts().ImplicitWait = TimeSpan.Zero;
-            // Attaching by HWND does not guarantee that a newly launched process
-            // owns the foreground after a previous scenario has closed.
-            session.SwitchTo().Window(session.CurrentWindowHandle);
             window = session.FindElement(WebBy.XPath("/*"));
+            if (window.GetAttribute("ProcessId") != process.Id.ToString())
+                throw new InvalidOperationException("WinAppDriver attached to an unexpected application process.");
         }
         catch
         {
+            // Desktop suites are serial; reject existing instances above and
+            // recover only the uniquely launched exact-path process on failure.
+            process ??= FindApplication(fullPath);
             Close();
             throw;
         }
+    }
+
+    private static Process? FindApplication(string executable)
+    {
+        Process? found = null;
+        foreach (var candidate in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executable)))
+        {
+            bool matches;
+            try { matches = string.Equals(candidate.MainModule?.FileName, executable, StringComparison.OrdinalIgnoreCase); }
+            catch { candidate.Dispose(); throw; }
+            if (!matches) { candidate.Dispose(); continue; }
+            if (found is not null)
+            {
+                candidate.Dispose();
+                found.Dispose();
+                throw new InvalidOperationException("Application ownership is ambiguous; run desktop suites serially.");
+            }
+            found = candidate;
+        }
+        return found;
     }
 
     private WindowsDriver Live
@@ -162,8 +181,6 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     {
         var ownedSession = session;
         var ownedProcess = process;
-        var ownedWindow = raisedWindow;
-        raisedWindow = null;
         var diagnostics = Environment.GetEnvironmentVariable("TRADEBLOTTER_DIAGNOSTICS_DIRECTORY");
         if (ownedSession is not null && !string.IsNullOrWhiteSpace(diagnostics))
         {
@@ -194,7 +211,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
                     }
                 }
             }
-            finally { ownedWindow?.Dispose(); ownedProcess?.Dispose(); ownedSession?.Dispose(); }
+            finally { ownedProcess?.Dispose(); ownedSession?.Dispose(); }
         }
     }
 
@@ -223,7 +240,6 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
         private void RequireEnabled()
         {
             if (!IsEnabled) throw new InvalidOperationException("Cannot interact with a disabled element.");
-            owner.raisedWindow!.EnsureVisible();
         }
         public void Click() { RequireEnabled(); LiveElement.Click(); }
         public void SelectItem() { RequireEnabled(); LiveElement.Click(); }
