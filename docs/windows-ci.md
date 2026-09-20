@@ -12,8 +12,8 @@ Run the same gate locally in PowerShell 7 on Windows with .NET 9:
 ./scripts/verify-ci.ps1
 ```
 
-The [script](../scripts/verify-ci.ps1) restores and builds all seven projects, then
-executes four suites sequentially: 16 framework tests, 34 Screenplay tests,
+The [script](../scripts/verify-ci.ps1) restores and builds all eight projects, then
+executes four suites sequentially: 28 framework tests, 34 Screenplay tests,
 10 real-WPF Reqnroll examples and 1 explicit native smoke test. Each suite writes
 a distinct TRX file. Counters must report the expected executed and passed totals;
 missing reports, discovery returning zero tests, skips and failures fail the gate.
@@ -48,7 +48,7 @@ for the uploaded-evidence mechanism. Action refs were resolved from the official
 
 The first full local run stalled while discovering the order-entry window. Temporary tracing isolated the stall to modal lookup; the adapter scanned all desktop descendants. Window discovery now starts with top-level windows belonging to the SUT and searches only their descendants for owned dialogs. AutomationId/name lookup avoids unrelated application providers; desktop-root XPath expressions retain their existing semantics. Diagnostic tracing was removed after investigation.
 
-The current 61-test gate includes TB-05 cancellation and TB-06 ticker coverage. The evidence below
+The current 73-test gate includes TB-05 cancellation, TB-06 ticker and TB-07 lifecycle coverage. The evidence below
 is the historical 36-test TB-04 acceptance baseline.
 
 ## Acceptance evidence
@@ -87,3 +87,5 @@ rejected by the count guard and corrected before publication. Earlier local
 desktop stalls were diagnosed and their owned SUT processes stopped; none are
 represented as passes. Hosted acceptance currently concerns this PR branch and
 its merge previews; a default-branch run will follow the user's merge.
+
+A separate [WinAppDriver parity job](winappdriver-parity.md) runs the unchanged ten BDD scenarios on another disposable runner.

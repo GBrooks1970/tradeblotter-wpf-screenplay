@@ -12,6 +12,7 @@
     <PackageReference Include="NUnit" Version="4.2.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="Reqnroll.NUnit" Version="3.3.4" />
+    <ProjectReference Include="../../src/TradeBlotter.Framework.WinAppDriver/TradeBlotter.Framework.WinAppDriver.csproj" />
     <ProjectReference Include="../../src/TradeBlotter.Screenplay/TradeBlotter.Screenplay.csproj" />
     <ProjectReference Include="../../src/TradeBlotter.Sut/TradeBlotter.Sut.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>

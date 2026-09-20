@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Reqnroll;
 using TradeBlotter.Framework.Abstractions;
 using TradeBlotter.Framework.FlaUI;
+using TradeBlotter.Framework.WinAppDriver;
 using TradeBlotter.Screenplay;
 using TradeBlotter.Screenplay.Tasks;
 
@@ -10,7 +11,7 @@ using TradeBlotter.Screenplay.Tasks;
 
 namespace TradeBlotter.Specs.Support;
 
-// Reqnroll constructs one context per scenario; only this composition boundary knows FlaUI.
+// Reqnroll constructs one context per scenario; only this composition boundary selects the native adapter.
 public sealed class DesktopSession
 {
     private IWindowsAutomationDriver? driver;
@@ -19,7 +20,12 @@ public sealed class DesktopSession
 
     public void Start()
     {
-        driver = new FlaUiDriverAdapter();
+        driver = (Environment.GetEnvironmentVariable("TRADEBLOTTER_DRIVER") ?? "flaui") switch
+        {
+            "flaui" => new FlaUiDriverAdapter(),
+            "winappdriver" => new WinAppDriverAdapter(),
+            var value => throw new ArgumentException($"Unknown desktop driver '{value}'. Use flaui or winappdriver.")
+        };
         Trader = TradingActors.TommyTrader(driver);
         Auditor = TradingActors.AdamAuditor(driver);
         var path = Path.Combine(AppContext.BaseDirectory, "sut", "TradeBlotter.Sut.exe");

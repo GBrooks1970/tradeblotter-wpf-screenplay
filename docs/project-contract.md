@@ -20,8 +20,8 @@ The application and probe builds do not run desktop automation.
 ## Complete Windows CI gate
 
 Run `./scripts/verify-ci.ps1` from PowerShell 7 with an available Windows desktop.
-This includes the six non-UI gates above, builds all seven projects and executes
-16 framework tests, 34 Screenplay tests, 10 BDD scenarios and the explicit native
+This includes the six non-UI gates above, builds all eight projects and executes
+28 framework tests, 34 Screenplay tests, 10 BDD scenarios and the explicit native
 smoke test sequentially. It requires exact executed/passed counts, writes four
 TRX reports and rejects remaining SUT processes. Update its expected counts when
 adding tests. The workflow runs this gate on pushes and pull requests; see
@@ -76,3 +76,7 @@ the interactive probe as part of documentation-only validation.
   external driver daemon. Record empirical evidence before claiming CI support.
 - Report actual test counts, commands and results. Never describe planned adapters,
   BDD scenarios or benchmarks as delivered functionality.
+
+## WinAppDriver parity gate (TB-07)
+
+Driver changes also require "./scripts/run-bdd.ps1 --driver=winappdriver" on a prepared Windows desktop. The separate hosted parity job provisions its disposable runner and executes the same ten BDD scenarios. See [setup and evidence](winappdriver-parity.md). Local validation may use FlaUI when Developer Mode is unavailable; acceptance remains pending until hosted parity passes.

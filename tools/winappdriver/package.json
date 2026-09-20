@@ -1,0 +1,17 @@
+{
+  "name": "tradeblotter-winappdriver-parity",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned Appium W3C proxy for the optional WinAppDriver parity gate",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=10"
+  },
+  "dependencies": {
+    "appium": "3.7.0",
+    "appium-windows-driver": "6.3.0"
+  },
+  "overrides": {
+    "morgan": "1.12.0"
+  }
+}

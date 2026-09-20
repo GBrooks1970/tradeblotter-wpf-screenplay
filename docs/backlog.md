@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 7 — TB-06 ticker verification delivered
+**Version:** 8 — TB-07 WinAppDriver parity in progress
 **Last Updated:** 2026-09-20
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -39,7 +39,7 @@ No open HIGH-priority risks.
 **Priority Score:** Security Impact (3) + Breakage Probability (6) + Maintenance Burden (5) = **14 points**  
 **Impact:** Secondary driver implementation demonstrating W3C WebDriver / Appium protocol compliance.  
 **Effort:** 6–8 hrs  
-**Status:** READY TO START  
+**Status:** IN PROGRESS
 **Affected Stacks:** Driver Abstraction (`TradeBlotter.Framework.WinAppDriver`)  
 
 **Problem:**
@@ -286,7 +286,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 2 | 12–16 hrs | 2 READY TO START |
+| MEDIUM (10–19) | 2 | 12–16 hrs | 1 IN PROGRESS, 1 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **2** | **12–16 hrs** | 2 READY TO START |
+| **Total Outstanding** | **2** | **12–16 hrs** | 1 IN PROGRESS, 1 READY TO START |
 | Resolved | 7 | Actual TB-01–TB-06 effort not measured | 7 COMPLETE |
