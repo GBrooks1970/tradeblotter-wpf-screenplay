@@ -71,3 +71,17 @@ fixed value `1.0842` and is not driven by this ticker.
 See the [SUT guide](../src/TradeBlotter.Sut/README.md),
 [project contract](project-contract.md) and [backlog](backlog.md) for the wider
 behaviour, gates and remaining adapter work.
+
+## Captured acceptance evidence
+
+On 2026-09-20, all 61 tests passed locally: framework 16/16 in 2.0073 s,
+Screenplay 34/34 in 1.4979 s, BDD 10/10 in 47.2825 s and native smoke 1/1
+in 10.4384 s (reported test-run durations). All seven Release builds had zero
+warnings/errors, four TRX reports were verified and no SUT process remained.
+
+At source commit `e1ef4ea2b49228295c375a60a0873e6298a5a92a`,
+[push run 35480734919](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35480734919)
+passed in 2m20s and
+[PR run 35480747091](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35480747091)
+passed in 2m29s (job durations). Both gates passed 61 tests; the PR run checked
+GitHub merge preview `714630fb4a8afaf9e59932cb90452bd638a5cbf8`.
