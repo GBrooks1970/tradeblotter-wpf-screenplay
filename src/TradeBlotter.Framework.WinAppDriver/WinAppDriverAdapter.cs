@@ -102,10 +102,17 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     private static WebBy Translate(Locator locator) => locator.Strategy switch
     {
         LocatorStrategy.AutomationId => MobileBy.AccessibilityId(locator.Value),
-        LocatorStrategy.Name => WebBy.Name(locator.Value),
+        LocatorStrategy.Name => WebBy.XPath($"//*[@Name={XPathLiteral(locator.Value)}]"),
         LocatorStrategy.XPath => WebBy.XPath(locator.Value),
         _ => throw new ArgumentOutOfRangeException(nameof(locator))
     };
+
+    private static string XPathLiteral(string value)
+    {
+        if (!value.Contains('\'')) return $"'{value}'";
+        if (!value.Contains('"')) return $"\"{value}\"";
+        return "concat(" + string.Join(",\"'\",", value.Split('\'').Select(part => $"'{part}'")) + ")";
+    }
 
     private static T WaitFor<T>(Func<T?> lookup, string description, TimeSpan? timeout = null) where T : class
     {
@@ -126,6 +133,10 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
     private IReadOnlyList<IWebElement> FindWithin(IWebElement root, Locator locator)
     {
         ArgumentNullException.ThrowIfNull(locator);
+        // Selenium's By.Name rewrites element-scoped searches as browser CSS.
+        // Native Name is an XML attribute, anchored to the same parent scope.
+        if (locator.Strategy == LocatorStrategy.Name)
+            locator = Locator.XPath($".//*[@Name={XPathLiteral(locator.Value)}]");
         // WinAppDriver does not preserve the UIA element-relative XPath context.
         // Anchor to the current element's native RuntimeId in the session tree.
         if (locator.Strategy == LocatorStrategy.XPath && locator.Value.StartsWith("./", StringComparison.Ordinal))
@@ -254,7 +265,7 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
             RequireEnabled();
             LiveElement.Click();
-            WaitFor(() => LiveElement.FindElements(WebBy.Name(text)).FirstOrDefault(), $"option {text}").Click();
+            WaitFor(() => owner.FindWithin(LiveElement, Locator.Name(text)).FirstOrDefault(), $"option {text}").Click();
         }
         public IAutomationElement Find(Locator locator) => owner.Wrap(WaitFor(
             () => owner.FindWithin(LiveElement, locator).FirstOrDefault(), $"element {locator}"));
