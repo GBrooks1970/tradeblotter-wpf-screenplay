@@ -35,6 +35,8 @@ public class ScreenplayTests
     [TestCase("window")]
     [TestCase("close")]
     [TestCase("select")]
+    [TestCase("selected-order")]
+    [TestCase("cancel-order")]
     public void AuditorCannotMutateEvenWhenTaskIsInvokedDirectly(string operation)
     {
         var driver = new FakeDriver();
@@ -46,6 +48,8 @@ public class ScreenplayTests
             "type" => new EnterText(Field, "x"),
             "window" => new SwitchWindow(Field),
             "select" => new SelectOption(Field, "MARKET"),
+            "selected-order" => new SelectedOrder("ORD-2026-0902"),
+            "cancel-order" => new CancelOrder("ORD-2026-0902"),
             _ => new CloseApplication()
         };
         Assert.Throws<InvalidOperationException>(() => auditor.AttemptsTo(task));
@@ -138,6 +142,32 @@ public class ScreenplayTests
             Assert.That(method.ReturnType, Is.Not.EqualTo(typeof(IWindowsAutomationDriver)).And.Not.EqualTo(typeof(IAutomationElement)));
     }
 
+    [Test]
+    public void CancellationSelectsTargetBeforeInvokingToolbar()
+    {
+        var driver = new FakeDriver();
+        TradingActors.TommyTrader(driver).AttemptsTo(new CancelOrder("ORD-2026-0902"));
+        Assert.That(driver.Calls, Is.EqualTo(new[] { "find:AutomationId=ORD-2026-0902", "select-item", "find:AutomationId=ORD-2026-0902", "click:AutomationId=BtnCancelOrder" }));
+    }
+
+    [Test]
+    public void UnconfirmedSelectionNeverInvokesCancellation()
+    {
+        var driver = new FakeDriver { SelectionSucceeds = false };
+        var error = Assert.Throws<InvalidOperationException>(() =>
+            TradingActors.TommyTrader(driver).AttemptsTo(new CancelOrder("ORD-2026-0902")));
+        Assert.That(error!.Message, Does.Contain("was not selected"));
+        Assert.That(driver.Calls.Any(c => c.StartsWith("click:")), Is.False);
+    }
+
+    [Test]
+    public void BlankOrderIdIsRejectedBeforeInteraction()
+    {
+        var driver = new FakeDriver();
+        Assert.Throws<ArgumentException>(() => TradingActors.TommyTrader(driver).AttemptsTo(new CancelOrder(" ")));
+        Assert.That(driver.Calls, Is.Empty);
+    }
+
     private sealed record FailingTask(Exception Error) : ITask
     {
         public void PerformAs(Actor actor) => throw Error;
@@ -153,10 +183,12 @@ public class ScreenplayTests
     private sealed class FakeDriver : IWindowsAutomationDriver
     {
         public List<string> Calls { get; } = [];
-        private readonly FakeElement element = new();
+        private readonly FakeElement element;
+        public bool SelectionSucceeds { get; init; } = true;
+        public FakeDriver() => element = new FakeElement(() => { Calls.Add("select-item"); return SelectionSucceeds; });
         public int? ProcessId => 123;
         public void Launch(string executablePath, string arguments = "") => Calls.Add($"launch:{executablePath}:{arguments}");
-        public IAutomationElement Find(By locator) => element;
+        public IAutomationElement Find(By locator) { Calls.Add($"find:{locator}"); return element; }
         public IReadOnlyList<IAutomationElement> FindAll(By locator) => [element];
         public void Click(By locator) => Calls.Add($"click:{locator}");
         public void Type(By locator, string text) { Calls.Add($"type:{locator}:{text}"); element.Type(text); }
@@ -165,12 +197,14 @@ public class ScreenplayTests
         public void Close() => Calls.Add("close");
         public void Dispose() => Calls.Add("dispose");
     }
-    private sealed class FakeElement : IAutomationElement
+    private sealed class FakeElement(Func<bool> selectItem) : IAutomationElement
     {
         public string AutomationId => "quantity";
         public string Name => "Quantity";
         public string Text { get; private set; } = "";
         public bool IsEnabled => true;
+        public bool IsSelected { get; private set; }
+        public void SelectItem() => IsSelected = selectItem();
         public void Click() => throw new AssertionException("Mutable element escaped observation boundary.");
         public void Type(string text) => Text = text;
         public void Select(string text) => Text = text;

@@ -211,7 +211,7 @@ by themselves constitute an accessibility assessment.
 | Window discovery, typing, switching and process teardown | [Native smoke test](../../tests/TradeBlotter.Framework.Tests/DesktopSmokeTests.cs) |
 | Fresh application per BDD scenario | [Scenario hooks](../../tests/TradeBlotter.Specs/Support/DesktopSession.cs) own and close each process |
 | Unattended execution on a Windows runner | [TB-04 CI evidence](../../docs/windows-ci.md), including these desktop tests |
-| Cancellation and state transitions | Handler exists; dedicated BDD verification is TB-05 |
+| Cancellation and state transitions | Four [TB-05 BDD examples](../../docs/order-cancellation-bdd.md) cover pending, partial, filled and cancelled orders, including repeated cancellation |
 | Alternating ticker | Timer exists; dedicated BDD verification is TB-06 |
 
 The [backlog](../../docs/backlog.md) is authoritative for subsequent coverage.

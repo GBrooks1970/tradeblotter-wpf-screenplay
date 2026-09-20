@@ -13,8 +13,8 @@ Run the same gate locally in PowerShell 7 on Windows with .NET 9:
 ```
 
 The [script](../scripts/verify-ci.ps1) restores and builds all seven projects, then
-executes four suites sequentially: 16 framework tests, 15 Screenplay tests,
-4 real-WPF Reqnroll scenarios and 1 explicit native smoke test. Each suite writes
+executes four suites sequentially: 16 framework tests, 20 Screenplay tests,
+8 real-WPF Reqnroll examples and 1 explicit native smoke test. Each suite writes
 a distinct TRX file. Counters must report the expected executed and passed totals;
 missing reports, discovery returning zero tests, skips and failures fail the gate.
 Each test execution has a 90-second inactivity timeout and retains the blame sequence on a hang. Update the expected counts deliberately when adding tests. Native desktop suites
@@ -47,6 +47,9 @@ for the uploaded-evidence mechanism. Action refs were resolved from the official
 ## Local reliability correction
 
 The first full local run stalled while discovering the order-entry window. Temporary tracing isolated the stall to modal lookup; the adapter scanned all desktop descendants. Window discovery now starts with top-level windows belonging to the SUT and searches only their descendants for owned dialogs. AutomationId/name lookup avoids unrelated application providers; desktop-root XPath expressions retain their existing semantics. Diagnostic tracing was removed after investigation.
+
+The current 45-test gate includes TB-05 cancellation coverage. The evidence below
+is the historical 36-test TB-04 acceptance baseline.
 
 ## Acceptance evidence
 

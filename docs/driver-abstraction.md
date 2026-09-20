@@ -63,3 +63,9 @@ AutomationId/name window discovery to SUT top-level windows and their descendant
 avoiding desktop-wide traversal of unrelated providers. Desktop-root XPath window
 expressions retain the original semantics.
 See [the validation contract](project-contract.md) for exact commands.
+
+TB-05 adds `IAutomationElement.SelectItem()` for UIA SelectionItem controls and
+`IsSelected` for read-back. Unsupported elements report false for inspection;
+selection requires the native pattern and rejects disabled controls. These are
+distinct from `Select(text)` for combo boxes. Read-only Screenplay observations
+expose selection state but no mutation method.
