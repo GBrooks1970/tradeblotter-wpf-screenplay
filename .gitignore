@@ -12,3 +12,7 @@ obj/
 # Test results and logs
 TestResults/
 *.log
+
+# Optional Appium tooling
+node_modules/
+.appium/
