@@ -1,6 +1,7 @@
 [CmdletBinding(PositionalBinding = $false)]
 param(
     [ValidateSet('flaui', 'winappdriver')][string] $Driver = 'flaui',
+    [switch] $Benchmark,
     [Parameter(Position = 0, ValueFromRemainingArguments)][string[]] $Options = @()
 )
 $ErrorActionPreference = 'Stop'
@@ -60,6 +61,16 @@ try {
     $counts = $trx.TestRun.ResultSummary.Counters
     if ([int]$counts.total -ne 10 -or [int]$counts.executed -ne 10 -or [int]$counts.passed -ne 10) { throw "Expected 10 executed and passed scenarios: $($counts.OuterXml)" }
     Write-Host "VERIFIED ${Driver}: 10/10 unchanged BDD scenarios passed."
+    if ($Benchmark) {
+        $benchmarkDrivers = if ($Driver -eq 'winappdriver') { @('flaui','winappdriver','ranorex-mock','ranorex') } else { @('flaui','ranorex-mock','ranorex') }
+        & "$PSScriptRoot/run-benchmarks.ps1" -Drivers $benchmarkDrivers -AllowUnavailable -Output (Join-Path $run 'benchmark')
+        # This job promises a native sample for its selected driver. The allowed
+        # unavailable row is Ranorex only, not a way to hide failed prerequisites.
+        $samples = @(Import-Csv (Join-Path $run 'benchmark/samples.csv'))
+        if (@($samples | Where-Object { $_.engine -eq $Driver -and $_.phase -eq 'measured' -and $_.status -eq 'PASS' }).Count -ne 3) {
+            throw "Expected three native benchmark samples for $Driver."
+        }
+    }
 }
 finally {
     $cleanupErrors = @()

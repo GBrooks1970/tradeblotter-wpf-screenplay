@@ -33,7 +33,9 @@ try {
         'tests/TradeBlotter.Framework.Tests/TradeBlotter.Framework.Tests.csproj',
         'tests/TradeBlotter.Screenplay.Tests/TradeBlotter.Screenplay.Tests.csproj',
         'tests/TradeBlotter.Specs/TradeBlotter.Specs.csproj',
-        'src/TradeBlotter.Framework.WinAppDriver/TradeBlotter.Framework.WinAppDriver.csproj'
+        'src/TradeBlotter.Framework.WinAppDriver/TradeBlotter.Framework.WinAppDriver.csproj',
+        'tools/TradeBlotter.Benchmarks/TradeBlotter.Benchmarks.csproj',
+        'tests/TradeBlotter.Benchmarks.Tests/TradeBlotter.Benchmarks.Tests.csproj'
     )
     foreach ($project in $projects) {
         Invoke-DotNet @('restore', $project)
@@ -45,7 +47,8 @@ try {
         @{ Name = 'framework'; Project = $projects[4]; Filter = 'FullyQualifiedName~DriverTests'; Count = 29 },
         @{ Name = 'screenplay'; Project = $projects[5]; Filter = 'FullyQualifiedName~ScreenplayTests'; Count = 34 },
         @{ Name = 'bdd'; Project = $projects[6]; Filter = 'FullyQualifiedName~TradeBlotter.Specs.Features'; Count = 10 },
-        @{ Name = 'native'; Project = $projects[4]; Filter = 'FullyQualifiedName~DesktopSmokeTests'; Count = 1 }
+        @{ Name = 'native'; Project = $projects[4]; Filter = 'FullyQualifiedName~DesktopSmokeTests'; Count = 1 },
+        @{ Name = 'benchmarks'; Project = $projects[9]; Filter = 'FullyQualifiedName~BenchmarkTests'; Count = 12 }
     )
     foreach ($suite in $suites) {
         Invoke-DotNet @('test', $suite.Project, '--configuration', 'Release', '--no-build', '--no-restore',
@@ -60,7 +63,8 @@ try {
     }
     $remaining = @(Get-Process -Name TradeBlotter.Sut -ErrorAction SilentlyContinue)
     if ($remaining.Count -ne 0) { throw "SUT processes remain after tests: $($remaining.Id -join ', ')" }
-    Write-Host 'PASS: 74 tests, four TRX reports, no remaining SUT process.'
+    & "$PSScriptRoot/run-benchmarks.ps1" -Drivers flaui,ranorex-mock,ranorex -AllowUnavailable -Output (Join-Path $runPath 'benchmark')
+    Write-Host 'PASS: 86 tests, five TRX reports and benchmark evidence, no remaining SUT process.'
 }
 finally {
     Pop-Location

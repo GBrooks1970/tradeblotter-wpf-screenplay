@@ -20,10 +20,11 @@ The application and probe builds do not run desktop automation.
 ## Complete Windows CI gate
 
 Run `./scripts/verify-ci.ps1` from PowerShell 7 with an available Windows desktop.
-This includes the six non-UI gates above, builds all eight projects and executes
+This includes the six non-UI gates above, builds all ten projects and executes
 29 framework tests, 34 Screenplay tests, 10 BDD scenarios and the explicit native
-smoke test sequentially. It requires exact executed/passed counts, writes four
-TRX reports and rejects remaining SUT processes. Update its expected counts when
+smoke test plus 12 benchmark tests sequentially. It requires exact executed/passed counts, writes five
+TRX reports and rejects remaining SUT processes. The gate then executes native FlaUI
+benchmark observations and explicit mock/unavailable reporting. Update its expected counts when
 adding tests. The workflow runs this gate on pushes and pull requests; see
 [Windows CI](windows-ci.md) for permissions, timeouts and hosted evidence.
 
