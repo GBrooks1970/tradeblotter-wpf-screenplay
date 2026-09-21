@@ -98,3 +98,29 @@ in the standard installation directories, uninstall registry or Ranorex environm
 settings during preflight. The current shared contract targets .NET 9. Validate
 runtime compatibility with the supplied SDK before choosing shared targeting or
 an out-of-process bridge; neither design is claimed implemented here.
+
+## Stage A acceptance: 2026-09-21
+
+PR #12 merged implementation `9acd5b2` as
+`0f09e209c1e75d571e53d92abb5aba96858028fe`. Both pre-merge runs
+[35580277957](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35580277957)
+and [35580283543](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35580283543)
+passed. The [post-merge main run 35581840286](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35581840286)
+also passed all 86 default tests (29 framework, 34 Screenplay, 10 FlaUI BDD,
+1 native smoke, 12 harness), 10 unchanged WinAppDriver BDD scenarios, and both
+native benchmark paths.
+
+The paired hosted run used one warmup followed by three measured fresh processes
+per adapter, with 20 verified grid lookups per repetition. Its captured medians:
+
+| Adapter | Startup ms | Lookup mean ms | SUT working set MiB |
+|---|---:|---:|---:|
+| FlaUI | 730.4654 | 151.3618 | 108.8828 |
+| WinAppDriver | 3896.3263 | 1059.5089 | 110.6719 |
+
+These observations are archived unchanged in the [generated report](benchmarks/2026-09-21_tb08a-main-35581840286/report.md),
+[raw CSV](benchmarks/2026-09-21_tb08a-main-35581840286/samples.csv) and
+[environment metadata](benchmarks/2026-09-21_tb08a-main-35581840286/metadata.json).
+Mock repetitions have blank metric fields; native Ranorex is UNAVAILABLE.
+The definitions and comparison limits above still apply. This completes TB-08A,
+not native Ranorex or the original three-driver requirement.

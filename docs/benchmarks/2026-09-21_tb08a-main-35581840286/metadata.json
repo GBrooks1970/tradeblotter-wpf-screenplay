@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "StartedUtc": "2026-09-21T09:21:39.7706484+00:00",
+  "Revision": "0f09e209c1e75d571e53d92abb5aba96858028fe",
+  "OS": "Microsoft Windows 10.0.26100",
+  "Runtime": ".NET 9.0.20",
+  "Architecture": "X64",
+  "ProcessorCount": 4,
+  "UserInteractive": true,
+  "ImageVersion": "20260907.229.1",
+  "CiRun": "35581840286",
+  "Drivers": [
+    "flaui",
+    "winappdriver",
+    "ranorex-mock",
+    "ranorex"
+  ],
+  "Options": {
+    "Repetitions": 3,
+    "Lookups": 20,
+    "Warmups": 1
+  },
+  "SutSha256": "42C4D30E46B388CC5D965071D030DC924557677BEB8CA22236616FF31E0986B3",
+  "Arguments": "",
+  "Ticker": "Normal SUT timer remains enabled",
+  "AllowUnavailable": true
+}
