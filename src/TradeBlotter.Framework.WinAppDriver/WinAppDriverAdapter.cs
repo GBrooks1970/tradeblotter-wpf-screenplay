@@ -276,7 +276,12 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             // WPF logical ListItem peers may acknowledge Click without selecting.
             // Navigate the actual option order and confirm the selection pattern.
             LiveElement.SendKeys(Keys.Home + string.Concat(Enumerable.Repeat(Keys.ArrowDown, index)) + Keys.Enter);
-            WaitFor(() => LiveElement.GetAttribute("Selection") == target ? LiveElement : null, $"selected option {text}");
+            // Selection is exposed in WinAppDriver's XML tree, but its attribute
+            // endpoint returns null for this UIA pattern property.
+            var comboId = LiveElement.GetAttribute("RuntimeId");
+            WaitFor(() => owner.Live.FindElements(WebBy.XPath(
+                $"//*[@RuntimeId={XPathLiteral(comboId)} and @Selection={XPathLiteral(target)}]"))
+                .FirstOrDefault(), $"selected option {text}");
         }
         public IAutomationElement Find(Locator locator) => owner.Wrap(WaitFor(
             () => owner.FindWithin(LiveElement, locator).FirstOrDefault(), $"element {locator}"));
