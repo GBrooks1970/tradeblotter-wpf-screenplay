@@ -7,6 +7,11 @@ been published in this record.
 
 ### Added
 
+- TB-08A: benchmark runner with native FlaUI/WinAppDriver routes, explicit
+  in-memory mock, unavailable native Ranorex records, CSV/Markdown reports and
+  environment/SUT provenance. Twelve harness tests extend the default gate to
+  86 tests. Licensed native Ranorex and three-driver acceptance remain TB-08B.
+
 - TB-07: optional Appium-backed WinAppDriver adapter, owned server lifecycle,
   driver selection and a separate unchanged-BDD parity CI job, verified with all ten scenarios passing.
   Thirteen endpoint/lifecycle cases extend the default gate to 74 tests.

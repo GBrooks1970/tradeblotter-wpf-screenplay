@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 9 — TB-07 WinAppDriver parity complete
+**Version:** 10 — TB-08 split into harness and native Ranorex stages
 **Last Updated:** 2026-09-21
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -39,7 +39,7 @@ No open HIGH-priority risks.
 **Priority Score:** Security Impact (3) + Breakage Probability (5) + Maintenance Burden (4) = **12 points**  
 **Impact:** Commercial enterprise driver adapter and empirical benchmarking suite.  
 **Effort:** 6–8 hrs  
-**Status:** READY TO START  
+**Status:** IN PROGRESS (TB-08A); BLOCKED (TB-08B)
 **Affected Stacks:** Driver Abstraction & Benchmarking  
 
 **Problem:**
@@ -51,12 +51,18 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 - **Maintenance (4/10):** Decoupled architecture isolates commercial dependencies.
 
 **Refactor Strategy:**
-1. Author `RanorexDriverAdapter` implementing `IWindowsAutomationDriver` with mock licensing fallback.
-2. Author benchmark runner comparing FlaUI, WinAppDriver, and Ranorex across cold boot, element location, and memory consumption.
-3. Publish benchmark results report.
+User-approved split on 2026-09-21:
+
+1. **TB-08A: Benchmark harness and explicit mock plumbing.** Measure available native adapters using fresh-process startup, repeated element lookup and SUT working-set snapshots. Publish CSV/Markdown with provenance. Explicit mock and unavailable rows carry no performance numbers; never silently substitute a mock for a native request.
+2. **TB-08B: Native Ranorex adapter and three-driver comparison.** Supply the commercial SDK/licensed runner, verify runtime integration with the .NET 9 contract, implement the native adapter, pass unchanged BDD scenarios and publish genuine three-driver observations. BLOCKED: SDK/licensed execution is unavailable; mock operation cannot satisfy native acceptance.
+
+The original 6–8 hour estimate predates this split and has not been re-estimated.
 
 **Success Criteria:**
-- [ ] Tri-framework benchmark runner executes and produces comparative CSV/Markdown reports.
+- [ ] TB-08A: Runner produces native, explicit mock and unavailable CSV/Markdown reports; tests verify cleanup, error handling and exclusion of simulated metrics.
+- [ ] TB-08B: Native Ranorex adapter executes unchanged BDD and the runner produces genuine three-driver CSV/Markdown measurements.
+
+See [harness scope and commands](benchmark-harness.md). Risk #8 remains open until both stages are complete.
 
 ---
 
@@ -288,7 +294,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 1 | 6–8 hrs | 1 READY TO START |
+| MEDIUM (10–19) | 1 | 6–8 hrs (original estimate) | TB-08A IN PROGRESS; TB-08B BLOCKED |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **1** | **6–8 hrs** | 1 READY TO START |
+| **Total Outstanding** | **1** | **6–8 hrs (original estimate)** | TB-08A IN PROGRESS; TB-08B BLOCKED |
 | Resolved | 8 | Actual TB-01–TB-07 effort not measured | 8 COMPLETE |

@@ -65,7 +65,7 @@ jobs:
       - name: Provision disposable Windows runner
         run: ./scripts/setup-winappdriver-ci.ps1
       - name: Execute unchanged BDD suite through WinAppDriver
-        run: ./scripts/run-bdd.ps1 --driver=winappdriver
+        run: ./scripts/run-bdd.ps1 -Driver winappdriver -Benchmark
       - name: Retain parity evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

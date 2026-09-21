@@ -12,16 +12,16 @@ Run the same gate locally in PowerShell 7 on Windows with .NET 9:
 ./scripts/verify-ci.ps1
 ```
 
-The [script](../scripts/verify-ci.ps1) restores and builds all eight projects, then
-executes four suites sequentially: 29 framework tests, 34 Screenplay tests,
-10 real-WPF Reqnroll examples and 1 explicit native smoke test. Each suite writes
+The [script](../scripts/verify-ci.ps1) restores and builds all ten projects, then
+executes five suites sequentially: 29 framework tests, 34 Screenplay tests,
+10 real-WPF Reqnroll examples, 1 explicit native smoke test and 12 benchmark tests. Each suite writes
 a distinct TRX file. Counters must report the expected executed and passed totals;
 missing reports, discovery returning zero tests, skips and failures fail the gate.
 Each test execution has a 90-second inactivity timeout and retains the blame sequence on a hang. Update the expected counts deliberately when adding tests. Native desktop suites
 must not run concurrently with other UI automation.
 
 Every execution uses a unique results directory beneath ignored `TestResults/ci/`
-so older TRX reports cannot satisfy the gate. Artifacts include the four reports
+so older TRX reports cannot satisfy the gate. Artifacts include the five reports
 and desktop diagnostics (OS, image version, session and screen bounds), are uploaded
 even after a test failure, and expire after seven days. A final check rejects
 remaining SUT processes. Native scenario teardown already closes its owned process.
@@ -48,7 +48,8 @@ for the uploaded-evidence mechanism. Action refs were resolved from the official
 
 The first full local run stalled while discovering the order-entry window. Temporary tracing isolated the stall to modal lookup; the adapter scanned all desktop descendants. Window discovery now starts with top-level windows belonging to the SUT and searches only their descendants for owned dialogs. AutomationId/name lookup avoids unrelated application providers; desktop-root XPath expressions retain their existing semantics. Diagnostic tracing was removed after investigation.
 
-The current 74-test gate includes TB-05 cancellation, TB-06 ticker and TB-07 lifecycle coverage. The evidence below
+The current 86-test gate includes TB-05 cancellation, TB-06 ticker, TB-07 lifecycle and TB-08A harness coverage.
+It also produces [benchmark observations](benchmark-harness.md); the WinAppDriver job does so after BDD parity. The evidence below
 is the historical 36-test TB-04 acceptance baseline.
 
 ## Acceptance evidence
