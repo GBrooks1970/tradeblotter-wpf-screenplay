@@ -273,12 +273,14 @@ public sealed class WinAppDriverAdapter : IWindowsAutomationDriver
             var index = items.ToList().FindIndex(item => item.GetAttribute("Name") == text);
             if (index < 0) throw new InvalidOperationException($"Combo-box option '{text}' was not found.");
             var target = items[index].GetAttribute("RuntimeId");
+            ArgumentException.ThrowIfNullOrWhiteSpace(target);
             // WPF logical ListItem peers may acknowledge Click without selecting.
             // Navigate the actual option order and confirm the selection pattern.
             LiveElement.SendKeys(Keys.Home + string.Concat(Enumerable.Repeat(Keys.ArrowDown, index)) + Keys.Enter);
             // Selection is exposed in WinAppDriver's XML tree, but its attribute
             // endpoint returns null for this UIA pattern property.
             var comboId = LiveElement.GetAttribute("RuntimeId");
+            ArgumentException.ThrowIfNullOrWhiteSpace(comboId);
             WaitFor(() => owner.Live.FindElements(WebBy.XPath(
                 $"//*[@RuntimeId={XPathLiteral(comboId)} and @Selection={XPathLiteral(target)}]"))
                 .FirstOrDefault(), $"selected option {text}");
