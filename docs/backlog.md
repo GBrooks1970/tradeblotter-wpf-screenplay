@@ -8,7 +8,7 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 10 — TB-08 split into harness and native Ranorex stages
+**Version:** 11 — TB-08A complete; native Ranorex TB-08B blocked
 **Last Updated:** 2026-09-21
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
@@ -39,7 +39,7 @@ No open HIGH-priority risks.
 **Priority Score:** Security Impact (3) + Breakage Probability (5) + Maintenance Burden (4) = **12 points**  
 **Impact:** Commercial enterprise driver adapter and empirical benchmarking suite.  
 **Effort:** 6–8 hrs  
-**Status:** IN PROGRESS (TB-08A); BLOCKED (TB-08B)
+**Status:** COMPLETE (TB-08A); BLOCKED (TB-08B)
 **Affected Stacks:** Driver Abstraction & Benchmarking  
 
 **Problem:**
@@ -59,10 +59,17 @@ User-approved split on 2026-09-21:
 The original 6–8 hour estimate predates this split and has not been re-estimated.
 
 **Success Criteria:**
-- [ ] TB-08A: Runner produces native, explicit mock and unavailable CSV/Markdown reports; tests verify cleanup, error handling and exclusion of simulated metrics.
+- [x] TB-08A: Runner produces native, explicit mock and unavailable CSV/Markdown reports; tests verify cleanup, error handling and exclusion of simulated metrics.
 - [ ] TB-08B: Native Ranorex adapter executes unchanged BDD and the runner produces genuine three-driver CSV/Markdown measurements.
 
 See [harness scope and commands](benchmark-harness.md). Risk #8 remains open until both stages are complete.
+
+**Stage A resolution:** Implementation `9acd5b2` merged through PR #12 as `0f09e20`.
+Post-merge hosted run 35581840286 passed 86 default tests and 10 unchanged
+WinAppDriver BDD scenarios. Its benchmark report records three measured native
+samples per adapter, explicit mock rows without metrics and native Ranorex
+UNAVAILABLE. The [immutable report and raw evidence](benchmarks/2026-09-21_tb08a-main-35581840286/report.md)
+establish Stage A acceptance only.
 
 ---
 
@@ -294,7 +301,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 1 | 6–8 hrs (original estimate) | TB-08A IN PROGRESS; TB-08B BLOCKED |
+| MEDIUM (10–19) | 1 | Remaining effort not re-estimated | TB-08A COMPLETE; TB-08B BLOCKED |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **1** | **6–8 hrs (original estimate)** | TB-08A IN PROGRESS; TB-08B BLOCKED |
+| **Total Outstanding** | **1** | **Not re-estimated** | TB-08B BLOCKED |
 | Resolved | 8 | Actual TB-01–TB-07 effort not measured | 8 COMPLETE |
