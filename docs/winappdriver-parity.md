@@ -60,6 +60,14 @@ session tree. Passing the shared `./*` expressions directly to WinAppDriver's
 element endpoint returned no blotter rows, despite successful grid discovery.
 The translation preserves the caller's scope without changing the shared queries.
 
+Name locators use escaped XPath attributes because Selenium translates its
+browser-oriented `By.Name` into CSS for element-scoped searches. Combo boxes use
+keyboard navigation through the discovered option order: WPF logical item clicks
+can return successfully without changing selection. The adapter verifies the
+selected item's RuntimeId against `Selection` in the XML tree. WinAppDriver's
+attribute endpoint returns null for that UIA pattern property, even when its
+page source contains the selected identity.
+
 `TRADEBLOTTER_DRIVER` can also select the fixture for direct `dotnet test` runs;
 the script sets and restores it automatically. Unknown values fail immediately.
 Direct WinAppDriver runs require both servers to be provisioned separately.
@@ -74,7 +82,7 @@ MSI SHA-256: `A76A8F4E44B29BAD331ACF6B6C248FCC65324F502F28826AD2ACD5F3C80857FE`.
 
 NuGet and npm direct versions are pinned. The npm lockfile includes a `morgan`
 1.12.0 override to resolve the upstream log-forging advisory; `npm audit` reports
-zero vulnerabilities on 2026-09-20. The proxy only listens on loopback.
+zero vulnerabilities on 2026-09-21. The proxy only listens on loopback.
 
 Each BDD invocation produces a new ignored `TestResults/<driver>/<run-id>/`
 directory. Exactly ten discovered, executed and passed scenarios are required;
@@ -83,8 +91,29 @@ days, including per-session UI trees and screenshots captured before teardown.
 The default FlaUI gate also executes thirteen non-UI WinAppDriver endpoint
 and lifecycle cases, bringing its total to 74 tests.
 
-Hosted WinAppDriver acceptance is pending. Local Developer Mode was unavailable;
-local validation covers compilation, endpoint/lifecycle tests and FlaUI regression.
+Hosted acceptance passed on 2026-09-21 at commit
+`154486b6375f356cc964c0f4e22cc19cab5d6bb1` in both
+[push run 35575448743](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35575448743)
+and [PR run 35575453754](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35575453754).
+The PR run records:
+
+| Gate | Passed | Runner-reported test duration |
+|---|---:|---:|
+| Framework | 29/29 | 1.2168 seconds |
+| Screenplay | 34/34 | 1.0231 seconds |
+| FlaUI BDD | 10/10 | 28.2997 seconds |
+| FlaUI native smoke | 1/1 | 7.2037 seconds |
+| WinAppDriver BDD | 10/10 | 6.9040 minutes |
+
+The parity TRX records total/executed/passed = 10, failed/notExecuted = 0.
+Its UTC start and finish are `07:59:46.4047029` and `08:06:40.6898179`.
+The suite covers four placement, four cancellation and two ticker scenarios.
+Feature files, step bindings, Screenplay code and the SUT have no changes relative
+to the TB-06 baseline. These timings describe this run, not a controlled benchmark.
+
+Local Developer Mode was unavailable; local validation covers compilation,
+endpoint/lifecycle tests and FlaUI regression. Native WinAppDriver acceptance
+comes from the disposable hosted runners, not a local execution claim.
 
 The initial hosted runs exposed relative XPath behaviour and console occlusion.
 [Run 35526425875](https://github.com/GBrooks1970/tradeblotter-wpf-screenplay/actions/runs/35526425875)

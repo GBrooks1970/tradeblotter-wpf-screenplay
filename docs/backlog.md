@@ -8,8 +8,8 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 8 — TB-07 WinAppDriver parity in progress
-**Last Updated:** 2026-09-20
+**Version:** 9 — TB-07 WinAppDriver parity complete
+**Last Updated:** 2026-09-21
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
 This backlog tracks the architecture, test automation harness, Screenplay pattern implementation, multi-driver abstraction, and CI delivery for the TradeBlotter.WPF desktop automation project.
@@ -33,32 +33,6 @@ Risks are ordered by priority score (highest first). Each risk includes a priori
 No open HIGH-priority risks.
 
 ### MEDIUM Priority (Score: 10–19)
-
-#### Risk #7: Microsoft WinAppDriver Adapter & Appium Protocol Parity — Score: 14
-
-**Priority Score:** Security Impact (3) + Breakage Probability (6) + Maintenance Burden (5) = **14 points**  
-**Impact:** Secondary driver implementation demonstrating W3C WebDriver / Appium protocol compliance.  
-**Effort:** 6–8 hrs  
-**Status:** IN PROGRESS
-**Affected Stacks:** Driver Abstraction (`TradeBlotter.Framework.WinAppDriver`)  
-
-**Problem:**
-To prove true driver interchangeability, a second driver implementing `IWindowsAutomationDriver` must execute the exact same BDD feature suite without test modifications.
-
-**Impact Analysis:**
-- **Security (3/10):** Local HTTP REST server communication (`127.0.0.1:4723`).
-- **Breakage (6/10):** Protocol differences between Appium W3C and native UIA3.
-- **Maintenance (5/10):** Reusable driver interface minimizes maintenance across drivers.
-
-**Refactor Strategy:**
-1. Implement `WinAppDriverAdapter` implementing `IWindowsAutomationDriver` using `Appium.WebDriver`.
-2. Configure automated WinAppDriver process lifecycle management.
-3. Execute feature suite using `--driver=winappdriver`.
-
-**Success Criteria:**
-- [ ] `WinAppDriverAdapter` passes full BDD test suite with 0 scenario changes.
-
----
 
 #### Risk #8: Ranorex Studio Core API Adapter & Tri-Framework Benchmark Harness — Score: 12
 
@@ -87,6 +61,34 @@ Commercial test automation capabilities must be demonstrated alongside open sour
 ---
 
 ### Resolved Risks
+
+#### Risk #7: Microsoft WinAppDriver Adapter & Appium Protocol Parity — Score: 14
+
+**Priority Score:** Security Impact (3) + Breakage Probability (6) + Maintenance Burden (5) = **14 points**
+**Impact:** Secondary driver implementation demonstrating W3C WebDriver / Appium protocol compliance.
+**Effort:** 6–8 hrs
+**Status:** COMPLETE
+**Affected Stacks:** Driver Abstraction (`TradeBlotter.Framework.WinAppDriver`)
+
+**Problem:**
+To prove true driver interchangeability, a second driver implementing `IWindowsAutomationDriver` must execute the exact same BDD feature suite without test modifications.
+
+**Impact Analysis:**
+- **Security (3/10):** Local HTTP REST server communication (`127.0.0.1:4723`).
+- **Breakage (6/10):** Protocol differences between Appium W3C and native UIA3.
+- **Maintenance (5/10):** Reusable driver interface minimizes maintenance across drivers.
+
+**Refactor Strategy:**
+1. Implement `WinAppDriverAdapter` implementing `IWindowsAutomationDriver` using `Appium.WebDriver`.
+2. Configure automated WinAppDriver process lifecycle management.
+3. Execute feature suite using `--driver=winappdriver`.
+
+**Success Criteria:**
+- [x] `WinAppDriverAdapter` passes full BDD test suite with 0 scenario changes.
+
+**Resolution (TB-07):** The Appium-backed adapter and owned server lifecycle pass all ten unchanged BDD scenarios on hosted Windows. Commit `154486b` passed both CI runs 35575448743 and 35575453754; the latter records 10/10 native parity plus 74/74 default tests. See [protocol parity and evidence](winappdriver-parity.md).
+
+---
 
 #### Risk #6: Real-time Asynchronous Pricing Ticker Feed Verification — Score: 16
 
@@ -286,7 +288,7 @@ Without a robust driver abstraction layer, test step definitions directly couple
 | Priority | Count | Total Effort | Status Distribution |
 |---|---|---|---|
 | HIGH (20–30) | 0 | 0 hrs | — |
-| MEDIUM (10–19) | 2 | 12–16 hrs | 1 IN PROGRESS, 1 READY TO START |
+| MEDIUM (10–19) | 1 | 6–8 hrs | 1 READY TO START |
 | LOW (0–9) | 0 | 0 hrs | — |
-| **Total Outstanding** | **2** | **12–16 hrs** | 1 IN PROGRESS, 1 READY TO START |
-| Resolved | 7 | Actual TB-01–TB-06 effort not measured | 7 COMPLETE |
+| **Total Outstanding** | **1** | **6–8 hrs** | 1 READY TO START |
+| Resolved | 8 | Actual TB-01–TB-07 effort not measured | 8 COMPLETE |

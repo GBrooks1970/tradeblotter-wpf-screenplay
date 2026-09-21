@@ -79,4 +79,4 @@ the interactive probe as part of documentation-only validation.
 
 ## WinAppDriver parity gate (TB-07)
 
-Driver changes also require "./scripts/run-bdd.ps1 --driver=winappdriver" on a prepared Windows desktop. The separate hosted parity job provisions its disposable runner and executes the same ten BDD scenarios. See [setup and evidence](winappdriver-parity.md). Local validation may use FlaUI when Developer Mode is unavailable; acceptance remains pending until hosted parity passes.
+Driver changes also require "./scripts/run-bdd.ps1 --driver=winappdriver" on a prepared Windows desktop. The separate hosted parity job provisions its disposable runner and executes the same ten BDD scenarios. See [setup and evidence](winappdriver-parity.md). Local validation may use FlaUI when Developer Mode is unavailable; hosted parity must still pass before accepting a driver change. TB-07 acceptance is recorded in the linked evidence.
