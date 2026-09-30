@@ -8,11 +8,17 @@
 
 # TradeBlotter.WPF — Backlog
 
-**Version:** 11 — TB-08A complete; native Ranorex TB-08B blocked
-**Last Updated:** 2026-09-21
+**Version:** 12 — parked pending licensed Ranorex; session closure recorded
+**Last Updated:** 2026-09-28
 **Based on:** [`project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md`](../../project-specs/potential-project-outlines/tradeblotter-wpf-screenplay.md) and [`portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md`](../../portfolio-docs/PORTFOLIO_TRADEBLOTTER_PROBE_2026-09-18.md)
 
 This backlog tracks the architecture, test automation harness, Screenplay pattern implementation, multi-driver abstraction, and CI delivery for the TradeBlotter.WPF desktop automation project.
+
+**Update (2026-09-28):** Session closure records the user's 2026-09-21 decision to
+park this project until a licensed Ranorex SDK is installed. TB-01 through TB-08A
+remain complete; TB-08B remains open and BLOCKED. No SDK installation, licence
+activation or native Ranorex verification was performed during this documentation
+wrap-up. Resume only when the SDK and licensed execution environment are available.
 
 **Priority Scoring System:**
 - **Score = Security Impact (0–10) + Breakage Probability (0–10) + Maintenance Burden (0–10)**
